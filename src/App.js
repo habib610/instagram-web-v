@@ -4,14 +4,14 @@ import Registration from './pages/Registration';
 
 function App() {
     return (
-        <>
+        <div className="bg-gray-bg">
             <Router>
                 <Switch>
                     <Route path="/" exact component={Login} />
                     <Route path="/registration" component={Registration} />
                 </Switch>
             </Router>
-        </>
+        </div>
     );
 }
 

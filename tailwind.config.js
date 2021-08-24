@@ -9,6 +9,7 @@ module.exports = {
                 bg: '#fafafa',
                 text: '#c7c7c7',
                 dark: '#8e8e8e',
+                base: '#616161',
             },
             black: {
                 pure: '#000000',
@@ -23,7 +24,10 @@ module.exports = {
         },
     },
     variants: {
-        extend: {},
+        extend: {
+            opacity: ['disabled'],
+            backgroundColor: ['active'],
+        },
     },
     plugins: [],
 };
