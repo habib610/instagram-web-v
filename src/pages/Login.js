@@ -6,7 +6,7 @@ const Login = () => (
         <div className="w-3/5 hidden md:block">
             <img src=".\images\iphone-with-profile.jpg" alt="iphone-with-profile" />
         </div>
-        <div className="flex flex-col w-6/6  md:w-2/5">
+        <div className="flex flex-col w-5/6  md:w-2/5">
             <div className="flex flex-col border border-gray-border rounded items-center mb-4 p-4 bg-white ">
                 <h1 className="flex justify-center w-full">
                     <img src="./images/logo.png" alt="logo" className="mt-2 w-8/12 mb-4" />
@@ -15,12 +15,12 @@ const Login = () => (
                     <input
                         type="email"
                         placeholder="Email"
-                        className="w-full mb-2 px-4 py-4 border  border-gray-border rounded text-sm h-2 text-gray-text"
+                        className="w-full mb-2 px-4 py-4 border  border-gray-border rounded text-sm h-2 text-gray-text focus:outline-none focus:ring-2 focus:ring-blue bg-gray-bg focus:bg-white"
                     />
                     <input
                         type="password"
                         placeholder="Password"
-                        className="w-full mb-2 px-4 py-4 border  border-gray-border rounded text-sm h-2 text-gray-text"
+                        className="w-full mb-2 px-4 py-4 border  border-gray-border rounded text-sm h-2 text-gray-text focus:outline-none focus:ring-2 focus:ring-blue bg-gray-bg focus:bg-white"
                     />
                     <button
                         className="w-full bg-blue text-white font-bold h-8 rounded"
