@@ -9,7 +9,6 @@ const useAuthListener = () => {
     useEffect(() => {
         const unsubscribe = fireAuth.onAuthStateChanged((authUser) => {
             if (authUser) {
-                console.log(authUser);
                 localStorage.setItem('instaUser', JSON.stringify(authUser));
                 setLoggedInUser(authUser);
             } else {

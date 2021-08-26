@@ -9,3 +9,14 @@ export const checkExistingUserName = async (username) => {
     }
     return false;
 };
+
+export const getUserByUid = async (uid) => {
+    const resultRef = await fireStore.collection('users').where('uid', '==', uid).get();
+
+    const user = resultRef.docs.map((snapShoot) => {
+        const docId = snapShoot.id;
+        const data = snapShoot.data();
+        return { docId, data };
+    });
+    return user[0];
+};
