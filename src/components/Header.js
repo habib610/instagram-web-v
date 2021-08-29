@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { UserContext } from '../context/context';
 import useUser from '../hooks/useUser';
 import { fireAuth } from '../lib/config';
 import SvgIcons from './SvgIcons';
 
 const Header = () => {
-    const { loggedInUser } = useContext(UserContext);
-    const { activeUser } = useUser(loggedInUser?.uid);
+    const {
+        user: { photo },
+    } = useUser();
+
     const history = useHistory();
 
     const logoutHandler = () => {
@@ -32,24 +33,19 @@ const Header = () => {
                     <div>{SvgIcons.messageOutline}</div>
                     <div>{SvgIcons.compassOutline}</div>
                     <div>{SvgIcons.heartOutline}</div>
-                    {activeUser && activeUser.data && (
-                        <div
+
+                    <div
+                        className="h-8 w-8 rounded-full bg-gray-base"
+                        onClick={logoutHandler}
+                        role="button"
+                        tabIndex="0"
+                    >
+                        <img
+                            src={photo || ' ./images/avatars/placeholder.png'}
+                            alt="user"
                             className="h-8 w-8 rounded-full bg-gray-base"
-                            onClick={logoutHandler}
-                            role="button"
-                            tabIndex="0"
-                        >
-                            <img
-                                src={
-                                    activeUser.data.photo
-                                        ? activeUser.data.photo
-                                        : './images/avatars/1.jpg'
-                                }
-                                alt="user"
-                                className="h-8 w-8 rounded-full bg-gray-base"
-                            />
-                        </div>
-                    )}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

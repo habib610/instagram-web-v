@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../context/context';
 import { getUserByUid } from '../services/services';
 
-const useUser = (userUid) => {
-    const [activeUser, setActiveUser] = useState();
+const useUser = () => {
+    const [activeUser, setActiveUser] = useState({});
+    const {
+        loggedInUser: { uid },
+    } = useContext(UserContext);
+
     useEffect(() => {
         const getUserInfo = async () => {
-            const user = await getUserByUid(userUid);
+            const user = await getUserByUid(uid);
             setActiveUser(user);
         };
 
-        if (userUid) {
+        if (uid) {
             getUserInfo();
         }
-    }, [userUid]);
-    return { activeUser };
+    }, [uid]);
+    return { user: activeUser };
 };
 
 export default useUser;

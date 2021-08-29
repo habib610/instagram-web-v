@@ -1,4 +1,4 @@
-import { fireStore } from '../lib/config';
+import { FieldValue, fireStore } from '../lib/config';
 
 // eslint-disable-next-line import/prefer-default-export
 export const checkExistingUserName = async (username) => {
@@ -13,10 +13,43 @@ export const checkExistingUserName = async (username) => {
 export const getUserByUid = async (uid) => {
     const resultRef = await fireStore.collection('users').where('uid', '==', uid).get();
 
-    const user = resultRef.docs.map((snapShoot) => {
+    return resultRef.docs.map((snapShoot) => {
         const docId = snapShoot.id;
         const data = snapShoot.data();
-        return { docId, data };
-    });
-    return user[0];
+        return { ...data, docId };
+    })[0];
+    // return user[0];
+};
+
+export const getSuggestedUsers = async (userUid, following) => {
+    const suggestionRef = await fireStore
+        .collection('users')
+        .where('uid', 'not-in', [...following, userUid])
+        .limit(5)
+        .get();
+    const result = suggestionRef.docs.map((item) => ({ ...item.data(), docId: item.id }));
+
+    return result;
+};
+
+export const updateLoggedInUserFollowing = (loggedInDocId, targetDocId, isFollowing) => {
+    fireStore
+        .collection('users')
+        .doc(loggedInDocId)
+        .update({
+            following: isFollowing
+                ? FieldValue.arrayRemove(targetDocId)
+                : FieldValue.arrayUnion(targetDocId),
+        });
+};
+
+export const updateFollowingUsersFollowers = (targetDocId, loggedInUId, isFollowers) => {
+    fireStore
+        .collection('users')
+        .doc(targetDocId)
+        .update({
+            followers: isFollowers
+                ? FieldValue.arrayRemove(loggedInUId)
+                : FieldValue.arrayUnion(loggedInUId),
+        });
 };
