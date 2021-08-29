@@ -1,10 +1,10 @@
 import React from 'react';
 
-const CardImage = () => (
+const CardImage = ({ imageSrc }) => (
     <div className="h-auto  ">
         <img
             style={{ maxHeight: '750px' }}
-            src="./images/photos/1.jpg"
+            src={imageSrc}
             alt="users-img"
             className="w-full h-auto object-cover"
         />

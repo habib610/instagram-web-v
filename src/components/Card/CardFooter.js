@@ -1,8 +1,9 @@
+import { formatDistance } from 'date-fns';
 import React from 'react';
 import SvgIcons from '../SvgIcons';
 import Comments from './Comments';
 
-const CardFooter = () => (
+const CardFooter = ({ username, likes, comments, dateCreated, caption }) => (
     <div>
         <div className="bg-white flex flex-col p-4">
             <div className="flex justify-between">
@@ -13,16 +14,22 @@ const CardFooter = () => (
                 </div>
                 <button type="button">{SvgIcons.save}</button>
             </div>
-            <div className="text-gray-black mb-2 text-md font-bold">11110 likes</div>
+            <div className="text-gray-black mb-2 text-md font-bold">
+                {likes.length} {likes.length === 0 ? 'like' : 'Likes'}
+            </div>
             <div className="text-black">
-                <span className="font-bold">username</span> Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Amet odit fugit aperiam atque! Quo incidunt, quas ut esse placeat
-                eius!
+                <span className="font-bold">{username}</span> {caption}
             </div>
             <div>
-                <Comments />
+                {comments.length !== 0 ? (
+                    comments.map((item) => <Comments key={item.createdAt} content={item} />)
+                ) : (
+                    <p>No comments yet</p>
+                )}
             </div>
-            <div className="text-gray-text text-xs my-2">12 minutes ago </div>
+            <div className="text-gray-text text-xs my-2">
+                {formatDistance(dateCreated, new Date())} ago
+            </div>
         </div>
         <div className="flex justify-between items-center border border-gray-border p-4 space-x-4 bg-white border-l-0 border-r-0">
             <button type="button">{SvgIcons.emoji}</button>

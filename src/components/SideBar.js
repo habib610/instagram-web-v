@@ -1,13 +1,10 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
-import useUser from '../hooks/useUser';
 import Suggestions from './Suggestions/Suggestions';
 
-const SideBar = () => {
-    const {
-        user: { photo, email, username, displayName, following, uid, docId: loggedInDocId },
-    } = useUser();
+const SideBar = ({ user }) => {
+    const { photo, email, username, displayName, following, uid, docId: loggedInDocId } = user;
 
     return (
         <div className="mt-8">
