@@ -3,8 +3,18 @@ import CardFooter from './CardFooter';
 import CardHeader from './CardHeader';
 import CardImage from './CardImage';
 
-const Card = ({ photos }) => {
-    const { username, avatar, imageSrc, likes, comments, dateCreated, caption } = photos;
+const Card = ({ photos, userUId }) => {
+    const {
+        username,
+        avatar,
+        imageSrc,
+        likes,
+        comments,
+        dateCreated,
+        caption,
+        userLiked,
+        photoDocId,
+    } = photos;
     return (
         <div className="border border-gray-border mb-6 rounded">
             <CardHeader username={username} avatar={avatar} />
@@ -15,6 +25,9 @@ const Card = ({ photos }) => {
                 comments={comments}
                 dateCreated={dateCreated}
                 caption={caption}
+                userLiked={userLiked}
+                photoDocId={photoDocId}
+                userUId={userUId}
             />
         </div>
     );

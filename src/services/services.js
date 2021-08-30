@@ -54,7 +54,7 @@ export const updateFollowingUsersFollowers = (targetDocId, loggedInUId, isFollow
         });
 };
 
-export const getFollowingPost = async (userUId, following) => {
+export const getFollowingPost = async (following, userUId) => {
     const result = await fireStore.collection('photos').where('userUId', 'in', following).get();
 
     const photoResult = result.docs.map((photo) => ({
@@ -73,5 +73,6 @@ export const getFollowingPost = async (userUId, following) => {
             return { ...photo, username, avatar, userLiked };
         })
     );
+
     return photosWithDetails;
 };
