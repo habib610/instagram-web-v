@@ -3,7 +3,7 @@ import CardFooter from './CardFooter';
 import CardHeader from './CardHeader';
 import CardImage from './CardImage';
 
-const Card = ({ photos, userUId }) => {
+const Card = ({ photos, userUId, authUserName }) => {
     const {
         username,
         avatar,
@@ -28,6 +28,7 @@ const Card = ({ photos, userUId }) => {
                 userLiked={userLiked}
                 photoDocId={photoDocId}
                 userUId={userUId}
+                authUserName={authUserName}
             />
         </div>
     );

@@ -1,13 +1,16 @@
+import 'emoji-mart/css/emoji-mart.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { UserContext } from './context/context';
 import useAuthListener from './hooks/useAuthListener';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 import Registration from './pages/Registration';
 
 function App() {
     const { loggedInUser } = useAuthListener();
+
     return (
         <UserContext.Provider value={{ loggedInUser }}>
             <div className="bg-gray-bg">
@@ -16,6 +19,7 @@ function App() {
                         <Route path="/" exact component={Login} />
                         <Route path="/registration" component={Registration} />
                         <Route path="/dashboard" component={Dashboard} />
+                        <Route path="/:username" component={Profile} />
                     </Switch>
                 </Router>
             </div>

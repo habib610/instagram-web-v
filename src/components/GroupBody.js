@@ -40,7 +40,12 @@ const GroupBody = () => {
                     </div>
                 ) : (
                     photos.map((item) => (
-                        <Card key={item.photoDocId} userUId={user.uid} photos={item} />
+                        <Card
+                            key={item.photoDocId}
+                            userUId={user.uid}
+                            photos={item}
+                            authUserName={user.username}
+                        />
                     ))
                 )}
             </div>

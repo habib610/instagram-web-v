@@ -1,4 +1,5 @@
 import { formatDistance } from 'date-fns';
+import { Picker } from 'emoji-mart';
 import React, { useState } from 'react';
 import { FieldValue, fireStore } from '../../lib/config';
 import SvgIcons from '../SvgIcons';
@@ -13,9 +14,19 @@ const CardFooter = ({
     userLiked,
     photoDocId,
     userUId,
+    authUserName,
 }) => {
     const [toggleLike, setToggleLike] = useState(userLiked);
     const [totalLikes, setTotalLikes] = useState(likes.length);
+
+    const [isPicker, setIsPicker] = useState(false);
+    const [message, setMessage] = useState('');
+    const [allComments, setAllComments] = useState(comments);
+
+    const addEmojiHandler = (e) => {
+        setMessage(message + e.native);
+    };
+
     const handleLike = async () => {
         setToggleLike(() => !toggleLike);
         await fireStore
@@ -27,6 +38,25 @@ const CardFooter = ({
                     : FieldValue.arrayUnion(userUId),
             });
         setTotalLikes(() => (toggleLike ? totalLikes - 1 : totalLikes + 1));
+    };
+
+    const addCommentHandler = async (e) => {
+        e.preventDefault();
+        const newComment = {
+            username: authUserName,
+            comment: message,
+            createdAt: Date.now(),
+        };
+        await fireStore
+            .collection('photos')
+            .doc(photoDocId)
+            .update({
+                comments: FieldValue.arrayUnion(newComment),
+            });
+
+        setAllComments([...allComments, newComment]);
+        setMessage('');
+        setIsPicker(false);
     };
     return (
         <div>
@@ -47,9 +77,9 @@ const CardFooter = ({
                 <div className="text-black">
                     <span className="font-bold">{username}</span> {caption}
                 </div>
-                <div className="ml-2">
-                    {comments.length !== 0 ? (
-                        comments.map((item) => <Comments key={item.createdAt} content={item} />)
+                <div>
+                    {allComments.length !== 0 ? (
+                        allComments.map((item) => <Comments key={item.createdAt} content={item} />)
                     ) : (
                         <p>No comments yet</p>
                     )}
@@ -58,17 +88,44 @@ const CardFooter = ({
                     {formatDistance(dateCreated, new Date())} ago
                 </div>
             </div>
-            <div className="flex justify-between items-center border border-gray-border p-4 space-x-4 bg-white border-l-0 border-r-0">
-                <button type="button">{SvgIcons.emoji}</button>
-                <input
-                    type="comments"
-                    className=" flex-1 py-2 h-6 focus:outline-none text-sm"
-                    placeholder="Add a comment.."
-                />
-                <button type="button" className="font-bold text-blue">
-                    Post
-                </button>
-            </div>
+            <form onSubmit={addCommentHandler}>
+                <div
+                    style={{ position: 'relative' }}
+                    className="flex justify-between items-center border border-gray-border p-4 space-x-4 bg-white border-l-0 border-r-0"
+                >
+                    <div>
+                        {isPicker && (
+                            <Picker
+                                style={{ position: 'absolute', top: '62px', left: 0 }}
+                                onSelect={addEmojiHandler}
+                                perLine={8}
+                                showSkinTones={false}
+                                showPreview={false}
+                                emoji="point_up"
+                            />
+                        )}
+                        <button onClick={() => setIsPicker(!isPicker)} type="button">
+                            {SvgIcons.emoji}
+                        </button>
+                    </div>
+                    <input
+                        value={message}
+                        type="comments"
+                        className=" flex-1 py-2 h-6 focus:outline-none text-sm"
+                        placeholder="Add a comment.."
+                        onChange={(e) => setMessage(e.target.value)}
+                        onFocus={() => setIsPicker(false)}
+                        autoComplete="off"
+                    />
+                    <button
+                        type="submit"
+                        className="font-bold text-blue"
+                        onClick={addCommentHandler}
+                    >
+                        Post
+                    </button>
+                </div>
+            </form>
         </div>
     );
 };

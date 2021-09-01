@@ -24,7 +24,7 @@ const SideBar = ({ user }) => {
                         <div>
                             <div>
                                 <Link
-                                    to="/profile"
+                                    to={`${username}`}
                                     className="font-medium text-black hover:underline pointer"
                                 >
                                     {username}
