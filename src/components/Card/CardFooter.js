@@ -47,7 +47,7 @@ const CardFooter = ({
                 <div className="text-black">
                     <span className="font-bold">{username}</span> {caption}
                 </div>
-                <div>
+                <div className="ml-2">
                     {comments.length !== 0 ? (
                         comments.map((item) => <Comments key={item.createdAt} content={item} />)
                     ) : (
