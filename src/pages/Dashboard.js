@@ -8,5 +8,4 @@ const Dashboard = () => (
         <GroupBody />
     </div>
 );
-
 export default Dashboard;

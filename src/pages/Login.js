@@ -19,7 +19,7 @@ const Login = () => {
         try {
             await fireAuth.signInWithEmailAndPassword(email, password);
             setLoader(false);
-            history.push('/dashboard');
+            history.push('/');
         } catch (err) {
             setLoader(false);
             setPassword('');

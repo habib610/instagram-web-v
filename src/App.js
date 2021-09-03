@@ -2,6 +2,7 @@ import 'emoji-mart/css/emoji-mart.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { UserContext } from './context/context';
+import ProtectedRoute from './helpers/ProtectedRoute';
 import useAuthListener from './hooks/useAuthListener';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
@@ -16,10 +17,14 @@ function App() {
             <div className="bg-gray-bg">
                 <Router>
                     <Switch>
-                        <Route path="/" exact component={Login} />
+                        <ProtectedRoute loggedInUser={loggedInUser} path="/" exact>
+                            <Route component={Dashboard} />
+                        </ProtectedRoute>
+                        <Route path="/login" component={Login} />
                         <Route path="/registration" component={Registration} />
-                        <Route path="/dashboard" component={Dashboard} />
-                        <Route path="/:username" component={Profile} />
+                        <ProtectedRoute loggedInUser={loggedInUser} path="/:username" exact>
+                            <Route component={Profile} />
+                        </ProtectedRoute>
                     </Switch>
                 </Router>
             </div>

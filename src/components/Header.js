@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import useUser from '../hooks/useUser';
 import { fireAuth } from '../lib/config';
 import SvgIcons from './SvgIcons';
@@ -13,13 +13,15 @@ const Header = () => {
 
     const logoutHandler = () => {
         fireAuth.signOut();
-        history.push('/');
+        history.push('/login');
     };
     return (
         <div className="border-b border-gray-border  bg-white fixed w-full">
             <div className="container mx-auto md:max-w-screen-md lg:max-w-screen-lg flex items-center justify-between py-3">
                 <div>
-                    <img src="./images/logo.png" className="h-8" alt="instagram-logo" />
+                    <Link to="/">
+                        <img src="./images/logo.png" className="h-8" alt="instagram-logo" />
+                    </Link>
                 </div>
                 <div>
                     <input
@@ -29,7 +31,9 @@ const Header = () => {
                     />
                 </div>
                 <div className="w-48 flex items-center justify-between">
-                    <div>{SvgIcons.homeFill}</div>
+                    <div>
+                        <Link to="/">{SvgIcons.homeFill}</Link>
+                    </div>
                     <div>{SvgIcons.messageOutline}</div>
                     <div>{SvgIcons.compassOutline}</div>
                     <div>{SvgIcons.heartOutline}</div>

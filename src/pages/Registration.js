@@ -40,7 +40,7 @@ const Registration = () => {
                     dateCreated: Date.now(),
                 });
                 setLoader(false);
-                history.push('/dashboard');
+                history.push('/');
             } catch (err) {
                 setLoader(false);
                 setError(err.message);

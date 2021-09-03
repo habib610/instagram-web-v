@@ -1,18 +1,32 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { useEffect } from 'react/cjs/react.development';
 import Header from '../components/Header';
 import UserProfile from '../components/Profile/UserProfile';
+import { getUserByUserName } from '../services/services';
 
 const Profile = () => {
     const { username } = useParams();
-    console.log(username);
-    const [user, setUser] = useState();
-    console.log(user, setUser);
+    const history = useHistory();
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const getUserProfileDetails = async () => {
+            const result = await getUserByUserName(username);
+            setUser(result);
+            if (result.userDocId) {
+                setUser(result);
+            } else {
+                history.push('/notfound');
+            }
+        };
+        getUserProfileDetails();
+    }, [history, username]);
 
     return (
         <div className="h-screen overflow-auto">
             <Header />
-            <UserProfile />
+            {user.username && <UserProfile user={user} />}
         </div>
     );
 };

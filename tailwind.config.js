@@ -14,6 +14,7 @@ module.exports = {
             black: {
                 pure: '#000000',
                 icon: '#262626',
+                faded: '#00000059',
             },
             blue: '#0095f6',
             red: {
@@ -27,6 +28,7 @@ module.exports = {
         extend: {
             opacity: ['disabled'],
             backgroundColor: ['active'],
+            display: ['group-hover'],
         },
     },
     plugins: [],

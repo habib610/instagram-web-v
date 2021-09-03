@@ -31,7 +31,7 @@ const SuggestedUser = ({ user, loggedInDocId, loggedInUserUId }) => {
                 <div>
                     <div>
                         <Link
-                            to="/profile"
+                            to={`/${username}`}
                             className="font-medium text-black hover:underline pointer text-sm "
                         >
                             {username}
