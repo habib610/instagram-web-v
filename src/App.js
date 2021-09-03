@@ -5,6 +5,7 @@ import { UserContext } from './context/context';
 import ProtectedRoute from './helpers/ProtectedRoute';
 import useAuthListener from './hooks/useAuthListener';
 import Dashboard from './pages/Dashboard';
+import EditProfile from './pages/EditProfile';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Registration from './pages/Registration';
@@ -22,7 +23,8 @@ function App() {
                         </ProtectedRoute>
                         <Route path="/login" component={Login} />
                         <Route path="/registration" component={Registration} />
-                        <ProtectedRoute loggedInUser={loggedInUser} path="/:username" exact>
+                        <Route path="/edit" component={EditProfile} />
+                        <ProtectedRoute loggedInUser={loggedInUser} path="/:username">
                             <Route component={Profile} />
                         </ProtectedRoute>
                     </Switch>

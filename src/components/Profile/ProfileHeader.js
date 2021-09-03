@@ -2,6 +2,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useContext, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/context';
 import useUser from '../../hooks/useUser';
 import {
@@ -21,10 +22,7 @@ const ProfileHeader = ({ user, totalPost }) => {
 
     const handleFollowUser = async () => {
         await updateLoggedInUserFollowing(authUser.docId, user.uid, isFollowingUser);
-        // await updateLoggedInUserFollowing(loggedInDocId, targetUId, isFollowing); ////
-
         await updateFollowingUsersFollowers(user.userDocId, authUser.uid, isFollowingUser);
-        // await updateFollowingUsersFollowers(targetDocId, loggedInUserUId, isFollowing); //////
         await setTotalFollowers(() => (isFollowingUser ? totalFollowers - 1 : totalFollowers + 1));
         await setIsFollowingUser(() => !isFollowingUser);
     };
@@ -66,12 +64,13 @@ const ProfileHeader = ({ user, totalPost }) => {
                         ) : null}
 
 						{isMyProfile ? (
-                            <button
-                                type="button"
-                                className="py-1 border text-sm rounded font-medium px-4 w-full md:w-max"
-                            >
-                                Edit Profile
-                            </button>
+                         <Link to="/edit"><button
+						 type="button"
+						 className="py-1 border text-sm rounded font-medium px-4 w-full md:w-max"
+					 >
+						 Edit Profile
+					 </button></Link>  
+						   
                         ) : null}
                     </div>
                     <div className="hidden w-6/12 md:flex justify-between my-3">
