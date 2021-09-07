@@ -1,23 +1,27 @@
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../context/context';
-import { getUserByUid } from '../services/services';
+import { fireStore } from '../lib/config';
+// import { getUserByUid } from '../services/services';
 
-const useUser = () => {
+const useUser = (collection = 'users') => {
     const [activeUser, setActiveUser] = useState({});
     const {
         loggedInUser: { uid },
     } = useContext(UserContext);
 
     useEffect(() => {
-        const getUserInfo = async () => {
-            const user = await getUserByUid(uid);
-            setActiveUser(user);
-        };
-
-        if (uid) {
-            getUserInfo();
-        }
-    }, [uid]);
+        const unSub = fireStore
+            .collection(collection)
+            .where('uid', '==', uid)
+            .onSnapshot((snap) => {
+                const docs = [];
+                snap.forEach((item) => {
+                    docs.push({ ...item.data(), docId: item.id });
+                });
+                setActiveUser(docs[0]);
+            });
+        return unSub;
+    }, [collection, uid]);
     return { user: activeUser };
 };
 

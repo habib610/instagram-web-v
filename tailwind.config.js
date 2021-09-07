@@ -22,6 +22,8 @@ module.exports = {
                 error: '#ed4956',
             },
             white: '#ffffff',
+            pink: '#e84393',
+            violate: '#6c5ce7',
         },
     },
     variants: {
