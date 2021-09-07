@@ -1,16 +1,18 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable prettier/prettier */
 import React, { useContext, useState } from 'react';
+import { FiEdit } from 'react-icons/fi';
 import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/context';
 import useUser from '../../hooks/useUser';
 import {
-	// eslint-disable-next-line no-unused-vars
-	updateFollowingUsersFollowers,
-	// eslint-disable-next-line no-unused-vars
-	updateLoggedInUserFollowing
+    // eslint-disable-next-line no-unused-vars
+    updateFollowingUsersFollowers,
+    // eslint-disable-next-line no-unused-vars
+    updateLoggedInUserFollowing
 } from '../../services/services';
+import Modal from '../Modal';
 
 const ProfileHeader = ({ user, totalPost }) => {
     const { username, email, photo, followers, following, displayName } = user;
@@ -26,7 +28,10 @@ const ProfileHeader = ({ user, totalPost }) => {
         await setTotalFollowers(() => (isFollowingUser ? totalFollowers - 1 : totalFollowers + 1));
         await setIsFollowingUser(() => !isFollowingUser);
     };
+
+    const [isModal, setIsModal] = useState(false)
     return (
+        <div>
         <div>
             <div className="flex md:items-center space-x-2 sm:space-x-12 pr-4 ">
                 <div className="w-4/12 lg:w-3/12 flex flex-col justify-center items-center sm:flex-none">
@@ -104,6 +109,11 @@ const ProfileHeader = ({ user, totalPost }) => {
                     <p>Followers</p>
                 </div>
             </div>
+        </div>
+        <button onClick={()=> setIsModal(true)} title="Create Post" type='button' className=" bg-red-rose h-12 w-12 sm:h-16 sm:w-16 flex items-center justify-center rounded-full text-white text-xl sm:text-2xl md:text-3xl shadow-xl object-right-bottom absolute bottom-4 right-4 sm:bottom-8 sm:right-8">
+            <FiEdit />
+        </button>
+       { isModal &&  <Modal user={user} setIsModal={setIsModal} />} 
         </div>
     );
 };

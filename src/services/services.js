@@ -18,7 +18,6 @@ export const getUserByUid = async (uid) => {
         const data = snapShoot.data();
         return { ...data, docId };
     })[0];
-    // return user[0];
 };
 
 export const getSuggestedUsers = async (userUid, following) => {
@@ -55,7 +54,8 @@ export const updateFollowingUsersFollowers = (targetDocId, loggedInUId, isFollow
 };
 
 export const getFollowingPost = async (following, userUId) => {
-    const result = await fireStore.collection('photos').where('userUId', 'in', following).get();
+    const idIncludesMe = [...following, userUId];
+    const result = await fireStore.collection('photos').where('userUId', 'in', idIncludesMe).get();
 
     const photoResult = result.docs.map((photo) => ({
         ...photo.data(),

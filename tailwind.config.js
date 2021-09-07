@@ -15,6 +15,7 @@ module.exports = {
                 pure: '#000000',
                 icon: '#262626',
                 faded: '#00000059',
+                small: '#00000054',
             },
             blue: '#0095f6',
             red: {

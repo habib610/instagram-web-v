@@ -13,7 +13,6 @@ const Profile = () => {
         const getUserProfileDetails = async () => {
             const result = await getUserByUserName(username);
             setUser(result);
-            console.log(result);
             if (result.userDocId) {
                 setUser(result);
             }
