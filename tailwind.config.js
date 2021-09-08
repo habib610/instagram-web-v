@@ -10,6 +10,8 @@ module.exports = {
                 text: '#c7c7c7',
                 dark: '#8e8e8e',
                 base: '#616161',
+                active: '#EFEFEF',
+                hover: '#fafafa',
             },
             black: {
                 pure: '#000000',
@@ -32,6 +34,7 @@ module.exports = {
             opacity: ['disabled'],
             backgroundColor: ['active'],
             display: ['group-hover'],
+            textColor: ['visited', 'group-hover', 'active'],
         },
     },
     plugins: [],

@@ -88,3 +88,9 @@ export const getUserPhotosByUId = async (userUId) => {
     const result = photosRef.docs.map((photo) => ({ ...photo.data(), photoDocId: photo.id }));
     return result;
 };
+
+export const getFollowingUsersInfo = async (following) => {
+    const usersRef = await fireStore.collection('users').where('uid', 'in', following).get();
+    const result = usersRef.docs.map((item) => ({ ...item.data(), userDocId: item.id }));
+    return result;
+};

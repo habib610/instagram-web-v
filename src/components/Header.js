@@ -34,7 +34,9 @@ const Header = () => {
                     <div>
                         <Link to="/">{SvgIcons.homeFill}</Link>
                     </div>
-                    <div>{SvgIcons.messageOutline}</div>
+                    <div>
+                        <Link to="/chat">{SvgIcons.messageOutline}</Link>{' '}
+                    </div>
                     <div>{SvgIcons.compassOutline}</div>
                     <div>{SvgIcons.heartOutline}</div>
 

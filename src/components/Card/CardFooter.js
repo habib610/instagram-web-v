@@ -1,6 +1,7 @@
 import { formatDistance } from 'date-fns';
 import { Picker } from 'emoji-mart';
 import React, { useState } from 'react';
+import { VscSmiley } from 'react-icons/vsc';
 import { FieldValue, fireStore } from '../../lib/config';
 import SvgIcons from '../SvgIcons';
 import Comments from './Comments';
@@ -104,8 +105,12 @@ const CardFooter = ({
                                 emoji="point_up"
                             />
                         )}
-                        <button onClick={() => setIsPicker(!isPicker)} type="button">
-                            {SvgIcons.emoji}
+                        <button
+                            className="group"
+                            onClick={() => setIsPicker(!isPicker)}
+                            type="button"
+                        >
+                            <VscSmiley className="group-hover:text-red-rose" size={27} />
                         </button>
                     </div>
                     <input

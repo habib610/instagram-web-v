@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { UserContext } from './context/context';
 import ProtectedRoute from './helpers/ProtectedRoute';
 import useAuthListener from './hooks/useAuthListener';
+import ChatBoard from './pages/ChatBoard';
 import Dashboard from './pages/Dashboard';
 import EditProfile from './pages/EditProfile';
 import Login from './pages/Login';
@@ -24,6 +25,7 @@ function App() {
                         <Route path="/login" component={Login} />
                         <Route path="/registration" component={Registration} />
                         <Route path="/edit" component={EditProfile} />
+                        <Route path="/chat" component={ChatBoard} />
                         <ProtectedRoute loggedInUser={loggedInUser} path="/:username">
                             <Route component={Profile} />
                         </ProtectedRoute>
