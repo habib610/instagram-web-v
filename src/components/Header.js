@@ -1,19 +1,13 @@
 import React from 'react';
 import { FiLogOut } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
-// import { UserContext } from '../context/context';
 import useUser from '../hooks/useUser';
 import { fireAuth } from '../lib/config';
 import SvgIcons from './SvgIcons';
 
 const Header = () => {
     const history = useHistory();
-    // const { loggedInUser } = useContext(UserContext);
 
-    // if (loggedInUser === null) {
-    //     history.push('/login');
-    //     return null;
-    // }
     const {
         user: { photo, username },
     } = useUser();
@@ -24,7 +18,7 @@ const Header = () => {
         history.push('/login');
     };
     return (
-        <div className="border-b border-gray-border  bg-white fixed w-full">
+        <div className="border-b border-gray-border  bg-white fixed w-full z-50">
             <div className="container mx-auto md:max-w-screen-md lg:max-w-screen-lg flex items-center justify-between py-3">
                 <div>
                     <Link to="/">

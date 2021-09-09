@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import { Picker } from 'emoji-mart';
 import React, { useContext, useState } from 'react';
 import { IoMdSend } from 'react-icons/io';
@@ -59,6 +58,7 @@ const ChatBox = ({ activeUser }) => {
                         ) : allMessages.length > 0 ? (
                             allMessages.map((item) => (
                                 <div
+                                    key={item.docId}
                                     style={{ maxWidth: '60%' }}
                                     className={`text-black-icon py-2 px-3 m-2 rounded-xl mb-2 ${
                                         item.sender === authUid

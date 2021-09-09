@@ -20,17 +20,3 @@ const NotFound = () => (
 );
 
 export default NotFound;
-
-// {
-//     /* <div className="container mx-auto mt-24 ">
-//             <div className="w-w/6  sm:w-4/6  bg-white ">
-//                 <h1 className="text-xl">Sorry, this page is not available.</h1>
-//                 <p>
-//                     The link you followed may be broken, or the page may have been removed.{' '}
-//                     <Link className="pointer" to="/">
-//                         Go back to Instagram.
-//                     </Link>
-//                 </p>
-//             </div>
-//         </div> */
-// }

@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../context/context';
 import { fireStore } from '../lib/config';
-// import { getUserByUid } from '../services/services';
 
 const useUser = (collection = 'users') => {
     const [activeUser, setActiveUser] = useState({});

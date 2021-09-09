@@ -4,11 +4,11 @@ import React from 'react';
 
 const CardHeader = ({ username, avatar }) => (
     <div className="bg-white py-4 flex justify-between items-center px-4 h-16 ">
-        <div className="flex space-x-4 items-center">
+        <div className="flex space-x-4 items-center ">
             <div>
                 <img
                     src={avatar || './images/avatars/placeholder.png'}
-                    className="h-12 w-12 bg-gray-base border-4 border-gray-border rounded-full border-xl"
+                    className="h-12 w-12 bg-gray-base bg-gradient-to-t from-orange to-pink p-0.5 border-pink rounded-full border-xl"
                     alt="profile"
                 />
             </div>

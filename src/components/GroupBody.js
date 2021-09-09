@@ -1,5 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable eqeqeq */
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';

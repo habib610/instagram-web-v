@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useState } from 'react';
 import { updateFollowingUsersFollowers, updateLoggedInUserFollowing } from '../services/services';
 

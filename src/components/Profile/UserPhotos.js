@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { BsFillChatFill } from 'react-icons/bs';
 import Skeleton from 'react-loading-skeleton';
