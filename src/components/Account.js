@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { useState } from 'react/cjs/react.development';
 import useUser from '../hooks/useUser';
 import { fireAuth, fireStore } from '../lib/config';
 import { checkExistingUserName } from '../services/services';

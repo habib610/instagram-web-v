@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory, useParams } from 'react-router-dom';
-import { useEffect } from 'react/cjs/react.development';
 import Header from '../components/Header';
 import UserProfile from '../components/Profile/UserProfile';
 import { getUserByUserName } from '../services/services';
