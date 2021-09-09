@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useHistory, useParams } from 'react-router-dom';
 import { useEffect } from 'react/cjs/react.development';
 import Header from '../components/Header';
@@ -22,9 +23,14 @@ const Profile = () => {
     }, [history, username]);
 
     return (
-        <div className="h-screen overflow-auto">
-            <Header />
-            {user && user.username && <UserProfile user={user} />}
+        <div>
+            <Helmet>
+                <title>Instagram | Profile</title>
+            </Helmet>
+            <div className="h-screen overflow-auto">
+                <Header />
+                {user && user.username && <UserProfile user={user} />}
+            </div>
         </div>
     );
 };

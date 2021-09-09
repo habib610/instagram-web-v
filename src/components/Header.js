@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FiLogOut } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 import useUser from '../hooks/useUser';
@@ -17,6 +17,13 @@ const Header = () => {
         fireAuth.signOut();
         history.push('/login');
     };
+    const [searchTex, setSearchTex] = useState('');
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
+        if (searchTex !== '') {
+            history.push(`/${searchTex}`);
+        }
+    };
     return (
         <div className="border-b border-gray-border  bg-white fixed w-full z-50">
             <div className="container mx-auto md:max-w-screen-md lg:max-w-screen-lg flex items-center justify-between py-3">
@@ -26,10 +33,12 @@ const Header = () => {
                     </Link>
                 </div>
                 <div>
-                    <form action="">
+                    <form action="" onSubmit={onSubmitHandler}>
                         <input
+                            value={searchTex}
+                            onChange={(e) => setSearchTex(e.target.value)}
                             type="text"
-                            placeholder="search"
+                            placeholder="search user"
                             className="py-3 px-2 h-4 text-sm w-48 text-gray-base rounded-sm border border-gray-border focus:outline-none bg-gray-bg focus:bg-white"
                         />
                     </form>

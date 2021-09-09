@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import Skeleton from 'react-loading-skeleton';
 import ExploreProfiles from '../components/ExploreProfiles';
 import Header from '../components/Header';
@@ -19,24 +20,29 @@ const Explore = () => {
         }
     }, [user.following, user.uid]);
     return (
-        <div className="h-screen overflow-auto pb-16">
-            <Header />
+        <div>
+            <Helmet>
+                <title>Instagram - Explore Users</title>
+            </Helmet>
+            <div className="h-screen overflow-auto pb-16">
+                <Header />
 
-            <div className="container mx-auto  max-w-screen-md  mt-24  flex justify-center">
-                <div className="w-w/6  sm:w-4/6  bg-white ">
-                    <div className="text-md font-bold mb-6 m-4">Suggested</div>
-                    {userProfiles.length !== 0 ? (
-                        userProfiles.map((item) => (
-                            <ExploreProfiles
-                                key={item.docId}
-                                user={item}
-                                authUserUid={user.uid}
-                                authUserDocId={user.docId}
-                            />
-                        ))
-                    ) : (
-                        <Skeleton count={20} height={80} />
-                    )}
+                <div className="container mx-auto  max-w-screen-md  mt-24  flex justify-center">
+                    <div className="w-w/6  sm:w-4/6  bg-white ">
+                        <div className="text-md font-bold mb-6 m-4">Suggested</div>
+                        {userProfiles.length !== 0 ? (
+                            userProfiles.map((item) => (
+                                <ExploreProfiles
+                                    key={item.docId}
+                                    user={item}
+                                    authUserUid={user.uid}
+                                    authUserDocId={user.docId}
+                                />
+                            ))
+                        ) : (
+                            <Skeleton count={20} height={80} />
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
