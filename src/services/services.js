@@ -20,11 +20,11 @@ export const getUserByUid = async (uid) => {
     })[0];
 };
 
-export const getSuggestedUsers = async (userUid, following) => {
+export const getSuggestedUsers = async (userUid, following, order = 5) => {
     const suggestionRef = await fireStore
         .collection('users')
         .where('uid', 'not-in', [...following, userUid])
-        .limit(5)
+        .limit(order)
         .get();
     const result = suggestionRef.docs.map((item) => ({ ...item.data(), docId: item.id }));
 
@@ -56,6 +56,9 @@ export const updateFollowingUsersFollowers = (targetDocId, loggedInUId, isFollow
 export const getFollowingPost = async (following, userUId) => {
     const idIncludesMe = [...following, userUId];
     const result = await fireStore.collection('photos').where('userUId', 'in', idIncludesMe).get();
+    if (result.empty) {
+        return [];
+    }
 
     const photoResult = result.docs.map((photo) => ({
         ...photo.data(),
@@ -79,6 +82,9 @@ export const getFollowingPost = async (following, userUId) => {
 
 export const getUserByUserName = async (userName) => {
     const userRef = await fireStore.collection('users').where('username', '==', userName).get();
+    if (userRef.empty) {
+        return null;
+    }
     const result = userRef.docs.map((item) => ({ ...item.data(), userDocId: item.id }))[0];
     return result;
 };

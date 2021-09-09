@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import { Link } from 'react-router-dom';
 import { getSuggestedUsers } from '../../services/services';
 import SuggestedUser from './SuggestedUser';
 
@@ -22,7 +23,7 @@ const Suggestions = ({ following, userUid, loggedInDocId }) => {
             <div className="flex justify-between items-center mb-4 h-8">
                 <p className="text-gray-text font-bold ">Suggestion for you</p>
                 <button type="button" className="text-sm text-black ">
-                    See all
+                    <Link to="/explore"> See all </Link>
                 </button>
             </div>
             <div>

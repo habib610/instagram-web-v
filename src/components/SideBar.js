@@ -1,11 +1,16 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { fireAuth } from '../lib/config';
 import Suggestions from './Suggestions/Suggestions';
 
 const SideBar = ({ user }) => {
     const { photo, email, username, displayName, following, uid, docId: loggedInDocId } = user;
-
+    const history = useHistory();
+    const logoutHandler = () => {
+        fireAuth.signOut();
+        history.push('/login');
+    };
     return (
         <div className="mt-8">
             {email ? (
@@ -33,7 +38,11 @@ const SideBar = ({ user }) => {
                             <div className="text-gray-base">{displayName}</div>
                         </div>
                     </div>
-                    <button type="button" className="text-blue text-sm font-medium">
+                    <button
+                        onClick={logoutHandler}
+                        type="button"
+                        className="text-blue text-sm font-medium"
+                    >
                         Switch
                     </button>
                 </div>

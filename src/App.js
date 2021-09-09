@@ -7,7 +7,9 @@ import useAuthListener from './hooks/useAuthListener';
 import ChatBoard from './pages/ChatBoard';
 import Dashboard from './pages/Dashboard';
 import EditProfile from './pages/EditProfile';
+import Explore from './pages/Explore';
 import Login from './pages/Login';
+import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import Registration from './pages/Registration';
 
@@ -24,8 +26,16 @@ function App() {
                         </ProtectedRoute>
                         <Route path="/login" component={Login} />
                         <Route path="/registration" component={Registration} />
-                        <Route path="/edit" component={EditProfile} />
-                        <Route path="/chat" component={ChatBoard} />
+                        <Route path="/notfound" component={NotFound} />
+                        <ProtectedRoute loggedInUser={loggedInUser} path="/edit">
+                            <Route component={EditProfile} />
+                        </ProtectedRoute>
+                        <ProtectedRoute loggedInUser={loggedInUser} path="/chat">
+                            <Route component={ChatBoard} />
+                        </ProtectedRoute>
+                        <ProtectedRoute loggedInUser={loggedInUser} path="/explore">
+                            <Route component={Explore} />
+                        </ProtectedRoute>
                         <ProtectedRoute loggedInUser={loggedInUser} path="/:username">
                             <Route component={Profile} />
                         </ProtectedRoute>
