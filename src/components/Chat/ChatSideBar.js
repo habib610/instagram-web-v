@@ -2,7 +2,7 @@ import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 const ChatSideBar = ({ user, userList, setActiveUser, activeUser }) => (
-    <div className="border-r border-gray-border">
+    <div className=" border-b sm:border-b-0 border-r border-gray-border ">
         <div className="flex items-center space-x-3 border-b border-gray-border pb-3 mb-2 p-3">
             <div className="h-12 w-12 ">
                 <img
@@ -16,7 +16,7 @@ const ChatSideBar = ({ user, userList, setActiveUser, activeUser }) => (
                 <div className="text-sm  text-gray-base">{user.username}</div>
             </div>
         </div>
-        <div style={{ height: '76.5vh', overflow: 'auto' }}>
+        <div style={{ height: '75.1vh', overflow: 'auto' }}>
             {userList === null ? (
                 <Skeleton count={10} height={70} />
             ) : userList.length > 0 ? (

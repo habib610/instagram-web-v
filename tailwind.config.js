@@ -36,6 +36,8 @@ module.exports = {
             backgroundColor: ['active'],
             display: ['group-hover'],
             textColor: ['visited', 'group-hover', 'active'],
+            rotate: ['active', 'group-hover'],
+            transitionProperty: ['responsive', 'motion-safe', 'motion-reduce'],
         },
     },
     plugins: [],

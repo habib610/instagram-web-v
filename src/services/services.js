@@ -89,6 +89,9 @@ export const getUserByUserName = async (userName) => {
 
 export const getUserPhotosByUId = async (userUId) => {
     const photosRef = await fireStore.collection('photos').where('userUId', '==', userUId).get();
+    if (photosRef.empty) {
+        return [];
+    }
     const result = photosRef.docs.map((photo) => ({ ...photo.data(), photoDocId: photo.id }));
     return result;
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { updateFollowingUsersFollowers, updateLoggedInUserFollowing } from '../services/services';
 
 const ExploreProfiles = ({ user, authUserUid, authUserDocId }) => {
@@ -21,7 +22,14 @@ const ExploreProfiles = ({ user, authUserUid, authUserDocId }) => {
                     />
                 </div>
                 <div className="mr-12">
-                    <div className="text-md font-medium">{user.username}</div>
+                    <div>
+                        <Link
+                            className="text-md font-medium hover:underline"
+                            to={`/${user.username}`}
+                        >
+                            {user.username}
+                        </Link>
+                    </div>
                     <div>new to instagram</div>
                 </div>
             </div>

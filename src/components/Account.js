@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { MdArrowBack } from 'react-icons/md';
 import Skeleton from 'react-loading-skeleton';
+import { Link } from 'react-router-dom';
 import useUser from '../hooks/useUser';
 import { fireAuth, fireStore } from '../lib/config';
 import { checkExistingUserName } from '../services/services';
@@ -121,15 +123,22 @@ const Account = () => {
     };
     return (
         <div className="container mx-auto md:max-w-screen-md  lg:max-w-screen-lg  my-12 mt-24 bg-white border border-gray-border p-4 h-max rounded">
-            <h1 className="text-center font-2xl font-bold text-black-icon mb-6 text-center">
-                Edit Profile
-            </h1>
+            <div className="flex items-center  mb-6">
+                <button type="button" className="text-blue font-2xl">
+                    <Link to={`/${user.username}`}>
+                        <MdArrowBack size={25} />
+                    </Link>
+                </button>
+                <h1 className="font-2xl flex-1  font-bold text-black-icon  text-center">
+                    Edit Profile
+                </h1>
+            </div>
 
             {user.email ? (
                 <form action="" onSubmit={submitHandler}>
                     <div className="flex flex-col space-y-4">
                         <div className="flex space-x-4 items-center">
-                            <div className="w-3/12 flex justify-end">
+                            <div className="w-4/12 flex sm:justify-end">
                                 <img
                                     className="rounded-full w-24 h-24 mr-8"
                                     src={isUrl || user.photo || './images/avatars/placeholder.png'}

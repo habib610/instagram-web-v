@@ -24,7 +24,7 @@ const Explore = () => {
             <Helmet>
                 <title>Instagram - Explore Users</title>
             </Helmet>
-            <div className="h-screen overflow-auto pb-16">
+            <div className="h-screen overflow-auto pb-16 flex-col">
                 <Header />
 
                 <div className="container mx-auto  max-w-screen-md  mt-24  flex justify-center">
@@ -40,7 +40,9 @@ const Explore = () => {
                                 />
                             ))
                         ) : (
-                            <Skeleton count={20} height={80} />
+                            <div className="flex justify-between items-center p-2 px-8 mb-1">
+                                <Skeleton count={20} width={300} height={80} />
+                            </div>
                         )}
                     </div>
                 </div>

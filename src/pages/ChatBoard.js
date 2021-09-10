@@ -8,7 +8,7 @@ const ChatBoard = () => (
         <Helmet>
             <title>Instagram | Chat</title>
         </Helmet>
-        <div className="h-screen overflow-auto">
+        <div className="h-screen overflow-y-hidden">
             <Header />
             <ChatBody />
         </div>

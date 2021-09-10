@@ -1,5 +1,7 @@
 import { Picker } from 'emoji-mart';
-import React, { useContext, useState } from 'react';
+import moment from 'moment';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { IoMdSend } from 'react-icons/io';
 import { VscSmiley } from 'react-icons/vsc';
 import Skeleton from 'react-loading-skeleton';
@@ -7,7 +9,7 @@ import { UserContext } from '../../context/context';
 import useMessages from '../../hooks/useMessages';
 import { fireStore } from '../../lib/config';
 
-const ChatBox = ({ activeUser }) => {
+const ChatBox = ({ activeUser, drawer, setDrawer }) => {
     const [message, setMessage] = useState('');
     const [isPicker, setIsPicker] = useState(false);
     const {
@@ -19,7 +21,17 @@ const ChatBox = ({ activeUser }) => {
         setMessage(message + e.native);
         setIsPicker(false);
     };
-    const scrollingElement = document.scrollingElement || document.body;
+
+    const messagesEndRef = useRef(null);
+
+    const scrollToBottom = () => {
+        // eslint-disable-next-line no-unused-expressions
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [allMessages]);
     const handleSubmit = async (e) => {
         e.preventDefault();
         await fireStore.collection('messages').add({
@@ -29,37 +41,55 @@ const ChatBox = ({ activeUser }) => {
             text: message,
         });
 
-        scrollingElement.scrollTop = scrollingElement.scrollHeight;
         setMessage('');
         setIsPicker(false);
     };
+    const handleFocus = () => {
+        setIsPicker(false);
+        setDrawer(true);
+    };
     return (
-        <div style={{ height: '85vh' }}>
-            <div className="flex flex-col h-full">
-                <div className="flex items-center space-x-3 border-b border-gray-border pb-3 p-3">
-                    <div className="h-12 w-12 ">
-                        <img
-                            className="rounded-full"
-                            src={activeUser.photo || './images/avatars/placeholder.png'}
-                            alt="authUser"
-                        />
-                    </div>
-                    <div>
-                        <div className="text-lg font-bold text-black-icon">
-                            {activeUser.displayName}
+        <div style={{ height: '84vh' }}>
+            <div className="flex flex-col h-full pr-1">
+                <div className="flex items-center justify-between space-x-3 border-b border-gray-border pb-3 p-3">
+                    <div className="flex items-center space-x-3">
+                        <div className="h-12 w-12 ">
+                            <img
+                                className="rounded-full"
+                                src={activeUser.photo || './images/avatars/placeholder.png'}
+                                alt="authUser"
+                            />
                         </div>
-                        <div className="text-sm  text-gray-base">{activeUser.username}</div>
+                        <div>
+                            <div className="text-lg font-bold text-black-icon">
+                                {activeUser.displayName}
+                            </div>
+                            <div className="text-sm  text-gray-base">{activeUser.username}</div>
+                        </div>
                     </div>
+
+                    <button
+                        type="button"
+                        className="sm:hidden shadow active:shadow-xl"
+                        onClick={() => setDrawer(!drawer)}
+                    >
+                        <AiOutlineMenuUnfold size={30} />
+                    </button>
                 </div>
-                <div className="flex-1  overflow-auto h-full">
-                    <div className="flex flex-col-reverse pb-auto">
+                <div
+                    className="flex-1  overflow-auto h-full"
+                    onClick={() => setDrawer(true)}
+                    tabIndex={0}
+                    role="button"
+                >
+                    <div ref={messagesEndRef} className="flex flex-col-reverse pb-auto">
                         {allMessages === null ? (
                             <Skeleton count={25} height={70} className="mx-24 mb-2" />
                         ) : allMessages.length > 0 ? (
                             allMessages.map((item) => (
                                 <div
                                     key={item.docId}
-                                    style={{ maxWidth: '60%' }}
+                                    style={{ maxWidth: '70%' }}
                                     className={`text-black-icon py-2 px-3 m-2 rounded-xl mb-2 ${
                                         item.sender === authUid
                                             ? 'ml-auto bg-gray-active'
@@ -68,7 +98,7 @@ const ChatBox = ({ activeUser }) => {
                                 >
                                     <p className="text-md mb-1">{item.text}</p>
                                     <p className="font-sm text-xs text-left">
-                                        {new Date(item.date).toLocaleTimeString()}
+                                        {moment(item.date).format('ddd, MMM D, h:mm a')}
                                     </p>
                                 </div>
                             ))
@@ -101,7 +131,7 @@ const ChatBox = ({ activeUser }) => {
                                 type="text"
                                 placeholder="Message..."
                                 className="w-full font-medium px-4 py-2 rounded text-gray-base outline-none"
-                                onFocus={() => setIsPicker(false)}
+                                onFocus={handleFocus}
                                 onChange={(e) => setMessage(e.target.value)}
                                 value={message}
                             />
