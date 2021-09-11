@@ -1,5 +1,6 @@
 import { formatDistance } from 'date-fns';
 import { Picker } from 'emoji-mart';
+import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { VscSmiley } from 'react-icons/vsc';
 import { FieldValue, fireStore } from '../../lib/config';
@@ -65,7 +66,9 @@ const CardFooter = ({
                 <div className="flex justify-between">
                     <div className="flex justify-between space-x-4 mb-2">
                         <button type="button" onClick={handleLike}>
-                            {toggleLike ? SvgIcons.reactFill : SvgIcons.reactOutline}
+                            <motion.p whileTap={{ rotateX: 360 }}>
+                                {toggleLike ? SvgIcons.reactFill : SvgIcons.reactOutline}
+                            </motion.p>
                         </button>
                         <button type="button">{SvgIcons.comment}</button>
                         <button type="button">{SvgIcons.share}</button>

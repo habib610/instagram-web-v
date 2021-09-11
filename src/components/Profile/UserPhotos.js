@@ -42,6 +42,7 @@ const UserPhotos = ({ user, setTotalPost }) => {
                                 src={item.imageSrc}
                                 alt="itemCaption"
                             />
+
                             <div className="absolute bottom-0 left-0 bg-gray-200 z-10 w-full justify-evenly items-center h-full bg-black-faded group-hover:flex hidden">
                                 <div className="flex space-x-2 text-white">
                                     <div>{SvgIcons.reactFillWhite}</div>

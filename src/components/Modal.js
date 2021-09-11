@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { BsImage, BsXCircle } from 'react-icons/bs';
 import { useHistory } from 'react-router-dom';
@@ -60,7 +61,11 @@ const Modal = ({ user, setIsModal }) => {
             tabIndex="0"
             onClick={hideModal}
         >
-            <div className="bg-white container mx-auto md:max-w-screen-sm  rounded-xl flex flex-col ">
+            <motion.div
+                initial={{ y: '-100vh' }}
+                animate={{ y: '0' }}
+                className="bg-white container mx-auto md:max-w-screen-sm  rounded-xl flex flex-col "
+            >
                 <div className="flex border-b border-gray-border py-2  items-center">
                     <p className="text-center w-11/12 text-xl font-bold text-black-icons">
                         Create Post
@@ -129,7 +134,7 @@ const Modal = ({ user, setIsModal }) => {
                     </button>
                 </div>
                 {error && <p className="text-center text-red-error mx-4 pb-3 ">{error}</p>}
-            </div>
+            </motion.div>
         </div>
     );
 };

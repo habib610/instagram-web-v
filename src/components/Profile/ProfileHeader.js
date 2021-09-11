@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useContext, useState } from 'react';
 import { FiEdit } from 'react-icons/fi';
 import Skeleton from 'react-loading-skeleton';
@@ -105,14 +106,18 @@ const ProfileHeader = ({ user, totalPost }) => {
                     </div>
                 </div>
             </div>
-            <button
-                onClick={() => setIsModal(true)}
-                title="Create Post"
-                type="button"
-                className=" bg-red-rose h-12 w-12 sm:h-16 sm:w-16 flex items-center justify-center rounded-full text-white text-xl sm:text-2xl md:text-3xl shadow-xl object-right-bottom absolute bottom-4 right-4 sm:bottom-8 sm:right-8"
-            >
-                <FiEdit />
-            </button>
+            {isMyProfile && (
+                <motion.button
+                    onClick={() => setIsModal(true)}
+                    title="Create Post"
+                    type="button"
+                    whileTap={{ rotateX: 90 }}
+                    whileHover={{ scale: 1.1 }}
+                    className=" bg-red-rose h-12 w-12 sm:h-16 sm:w-16 flex items-center justify-center rounded-full text-white text-xl sm:text-2xl md:text-3xl shadow-xl object-right-bottom absolute bottom-4 right-4 sm:bottom-8 sm:right-8 cursor-pointer"
+                >
+                    <FiEdit />
+                </motion.button>
+            )}
             {isModal && <Modal user={user} setIsModal={setIsModal} />}
         </div>
     );

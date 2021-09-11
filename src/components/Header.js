@@ -47,20 +47,20 @@ const Header = () => {
                         />
                     </form>
                 </div>
-                <div className="w-48 flex items-center ml-2 mr-2 space-x-2 justify-between">
+                <div className="w-48 flex items-center ml-2 mr-2 space-x-2 justify-between cursor-pointer">
                     <div>
                         <Link to="/">
                             {pathname === '/' ? SvgIcons.homeFill : SvgIcons.homeOutline}
                         </Link>
                     </div>
                     <div>
-                        <Link to="/chat">
+                        <Link className="cursor-pointer" to="/chat">
                             {pathname === '/chat' ? SvgIcons.messageFill : SvgIcons.messageOutline}
                         </Link>
                     </div>
                     <div>{SvgIcons.heartOutline}</div>
                     <div>
-                        <FiLogOut size={22} onClick={logoutHandler} />
+                        <FiLogOut className="cursor-pointer" size={22} onClick={logoutHandler} />
                     </div>
 
                     <div className="h-8 w-8 rounded-full bg-gray-base">
