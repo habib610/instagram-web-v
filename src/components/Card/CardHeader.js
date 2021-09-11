@@ -1,6 +1,7 @@
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const CardHeader = ({ username, avatar }) => (
     <div className="bg-white py-4 flex justify-between items-center px-4 h-16 ">
@@ -13,7 +14,7 @@ const CardHeader = ({ username, avatar }) => (
                 />
             </div>
             <div className="text-base font-semibold hover:font-underline hover:underline cursor-pointer">
-                {username}
+                <Link to={`/${username}`}>{username}</Link>
             </div>
         </div>
         <button type="button">
