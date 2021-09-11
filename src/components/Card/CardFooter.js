@@ -3,6 +3,7 @@ import { Picker } from 'emoji-mart';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { VscSmiley } from 'react-icons/vsc';
+import { Link } from 'react-router-dom';
 import { FieldValue, fireStore } from '../../lib/config';
 import SvgIcons from '../SvgIcons';
 import Comments from './Comments';
@@ -79,7 +80,12 @@ const CardFooter = ({
                     {totalLikes} {totalLikes > 1 ? 'likes' : 'Like'}
                 </div>
                 <div className="text-black">
-                    <span className="font-bold">{username}</span> {caption}
+                    <span className="font-bold">
+                        <Link className="hover:underline" to={`/${username}`}>
+                            {username}
+                        </Link>{' '}
+                    </span>
+                    {caption}
                 </div>
                 <div>
                     {allComments.length !== 0 ? (
