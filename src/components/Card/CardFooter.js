@@ -1,7 +1,7 @@
 import { formatDistance } from 'date-fns';
 import { Picker } from 'emoji-mart';
 import { motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { VscSmiley } from 'react-icons/vsc';
 import { Link } from 'react-router-dom';
 import { FieldValue, fireStore } from '../../lib/config';
@@ -26,6 +26,7 @@ const CardFooter = ({
     const [message, setMessage] = useState('');
     const [allComments, setAllComments] = useState(comments);
 
+    const commentRef = useRef();
     const addEmojiHandler = (e) => {
         setMessage(message + e.native);
     };
@@ -61,6 +62,7 @@ const CardFooter = ({
         setMessage('');
         setIsPicker(false);
     };
+
     return (
         <div>
             <div className="bg-white flex flex-col p-4">
@@ -71,7 +73,9 @@ const CardFooter = ({
                                 {toggleLike ? SvgIcons.reactFill : SvgIcons.reactOutline}
                             </motion.p>
                         </button>
-                        <button type="button">{SvgIcons.comment}</button>
+                        <button type="button" onClick={() => commentRef.current.focus()}>
+                            {SvgIcons.comment}
+                        </button>
                         <button type="button">{SvgIcons.share}</button>
                     </div>
                     <button type="button">{SvgIcons.save}</button>
@@ -106,7 +110,7 @@ const CardFooter = ({
                     <div>
                         {isPicker && (
                             <Picker
-                                style={{ position: 'absolute', top: '62px', left: 0 }}
+                                style={{ position: 'absolute', bottom: '64px', left: 0 }}
                                 onSelect={addEmojiHandler}
                                 perLine={8}
                                 showSkinTones={false}
@@ -130,6 +134,7 @@ const CardFooter = ({
                         onChange={(e) => setMessage(e.target.value)}
                         onFocus={() => setIsPicker(false)}
                         autoComplete="off"
+                        ref={commentRef}
                     />
                     <button
                         type="submit"

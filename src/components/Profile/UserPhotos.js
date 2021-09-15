@@ -14,7 +14,6 @@ const UserPhotos = ({ user, setTotalPost }) => {
         };
         getAllUserPhotos();
     }, [setTotalPost, user]);
-
     return (
         <div className="h-max border-t border-gray-border mt-12 pt-4">
             {userPhotos === null ? (
@@ -46,13 +45,13 @@ const UserPhotos = ({ user, setTotalPost }) => {
                             <div className="absolute bottom-0 left-0 bg-gray-200 z-10 w-full justify-evenly items-center h-full bg-black-faded group-hover:flex hidden">
                                 <div className="flex space-x-2 text-white">
                                     <div>{SvgIcons.reactFillWhite}</div>
-                                    <p className="text-white font-bold">{item.comments.length}</p>
+                                    <p className="text-white font-bold">{item.likes.length}</p>
                                 </div>
                                 <div className="flex space-x-2">
                                     <div>
                                         <BsFillChatFill className="text-white" size={24} />
                                     </div>
-                                    <p className="text-white font-bold">{item.likes.length}</p>
+                                    <p className="text-white font-bold">{item.comments.length}</p>
                                 </div>
                             </div>
                         </div>

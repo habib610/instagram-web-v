@@ -18,15 +18,24 @@ export const getUserByUid = async (uid) => {
     })[0];
 };
 
-export const getSuggestedUsers = async (userUid, following, order = 5) => {
-    const suggestionRef = await fireStore
-        .collection('users')
-        .where('uid', 'not-in', [...following, userUid])
-        .limit(order)
-        .get();
-    const result = suggestionRef.docs.map((item) => ({ ...item.data(), docId: item.id }));
-
-    return result;
+export const getSuggestedUsers = async (userUid, following, limit = 10) => {
+    const collectionRef = fireStore.collection('users');
+    if (following.length === 0) {
+        const suggested = await collectionRef.where('uid', '!=', userUid).get();
+        if (suggested.empty) {
+            return [];
+        }
+        return suggested.docs.map((item) => ({ ...item.data(), docId: item.id }));
+    }
+    const suggested = await collectionRef.get();
+    if (suggested.empty) {
+        return [];
+    }
+    const result = suggested.docs.map((item) => ({ ...item.data(), docId: item.id }));
+    const filtered = result
+        .filter((item) => ![...following, userUid].includes(item.uid))
+        .slice(0, limit);
+    return filtered;
 };
 
 export const updateLoggedInUserFollowing = (loggedInDocId, targetDocId, isFollowing) => {
@@ -53,7 +62,7 @@ export const updateFollowingUsersFollowers = (targetDocId, loggedInUId, isFollow
 
 export const getFollowingPost = async (following, userUId) => {
     const idIncludesMe = [...following, userUId];
-    const result = await fireStore.collection('photos').where('userUId', 'in', idIncludesMe).get();
+    const result = await fireStore.collection('photos').get();
     if (result.empty) {
         return [];
     }
@@ -63,8 +72,9 @@ export const getFollowingPost = async (following, userUId) => {
         photoDocId: photo.id,
     }));
 
+    const photoFilter = photoResult.filter((item) => idIncludesMe.includes(item.userUId));
     const photosWithDetails = await Promise.all(
-        photoResult.map(async (photo) => {
+        photoFilter.map(async (photo) => {
             let userLiked = false;
             if (photo.likes.includes(userUId)) {
                 userLiked = true;
@@ -97,7 +107,11 @@ export const getUserPhotosByUId = async (userUId) => {
 };
 
 export const getFollowingUsersInfo = async (following) => {
-    const usersRef = await fireStore.collection('users').where('uid', 'in', following).get();
+    const usersRef = await fireStore.collection('users').get();
+    if (usersRef.empty || !following.length) {
+        return [];
+    }
     const result = usersRef.docs.map((item) => ({ ...item.data(), userDocId: item.id }));
-    return result;
+    const filtered = result.filter((item) => following.includes(item.uid));
+    return filtered;
 };

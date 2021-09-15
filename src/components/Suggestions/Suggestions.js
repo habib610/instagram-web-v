@@ -5,7 +5,7 @@ import { getSuggestedUsers } from '../../services/services';
 import SuggestedUser from './SuggestedUser';
 
 const Suggestions = ({ following, userUid, loggedInDocId }) => {
-    const [userProfiles, setUserProfiles] = useState([]);
+    const [userProfiles, setUserProfiles] = useState(null);
 
     useEffect(() => {
         const getSuggestedProfiles = async () => {
@@ -27,7 +27,9 @@ const Suggestions = ({ following, userUid, loggedInDocId }) => {
                 </button>
             </div>
             <div>
-                {userProfiles.length !== 0 ? (
+                {userProfiles === null ? (
+                    <Skeleton count={10} height={60} className="mb-2" />
+                ) : userProfiles.length > 0 ? (
                     userProfiles.map((item) => (
                         <SuggestedUser
                             key={item.docId}
@@ -37,7 +39,9 @@ const Suggestions = ({ following, userUid, loggedInDocId }) => {
                         />
                     ))
                 ) : (
-                    <Skeleton count={10} height={60} className="mb-2" />
+                    <h1 className="font-medium text-center">
+                        Currently No Suggestion Available...
+                    </h1>
                 )}
             </div>
         </div>
