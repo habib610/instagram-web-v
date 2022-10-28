@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
-import { useHistory, useParams } from 'react-router-dom';
-import Header from '../components/Header';
-import UserProfile from '../components/Profile/UserProfile';
-import { getUserByUserName } from '../services/services';
+import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
+import { useHistory, useParams } from "react-router-dom";
+import Header from "../components/Header";
+import UserProfile from "../components/Profile/UserProfile";
+import { getUserByUserName } from "../services/services";
 
 const Profile = () => {
     const { username } = useParams();
@@ -15,7 +15,7 @@ const Profile = () => {
             if (result !== null) {
                 setUser(result);
             } else {
-                history.push('/notfound');
+                history.push("/notfound");
             }
         };
         getUserProfileDetails();
@@ -24,7 +24,7 @@ const Profile = () => {
     return (
         <div>
             <Helmet>
-                <title>Instagram | Profile</title>
+                <title>Photogram | Profile</title>
             </Helmet>
             <div className="h-screen overflow-auto">
                 <Header />

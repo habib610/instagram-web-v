@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { updateFollowingUsersFollowers, updateLoggedInUserFollowing } from '../services/services';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+    updateFollowingUsersFollowers,
+    updateLoggedInUserFollowing,
+} from "../services/services";
+import { avatar } from "./assets";
 
 const ExploreProfiles = ({ user, authUserUid, authUserDocId }) => {
     const [isFollowing, setIsFollowing] = useState(false);
@@ -8,7 +12,11 @@ const ExploreProfiles = ({ user, authUserUid, authUserDocId }) => {
     const updateSuggestedUser = async () => {
         await updateLoggedInUserFollowing(authUserDocId, user.uid, isFollowing);
 
-        await updateFollowingUsersFollowers(user.docId, authUserUid, isFollowing);
+        await updateFollowingUsersFollowers(
+            user.docId,
+            authUserUid,
+            isFollowing
+        );
         await setIsFollowing(true);
     };
     return !isFollowing ? (
@@ -16,7 +24,7 @@ const ExploreProfiles = ({ user, authUserUid, authUserDocId }) => {
             <div className="flex items-center">
                 <div className="mr-8">
                     <img
-                        src={user.photo || './images/avatars/placeholder.png'}
+                        src={user.photo || avatar}
                         className="h-12 w-12 rounded-full"
                         alt="userProfiles"
                     />
@@ -30,7 +38,7 @@ const ExploreProfiles = ({ user, authUserUid, authUserDocId }) => {
                             {user.username}
                         </Link>
                     </div>
-                    <div>new to instagram</div>
+                    <div>new to Photogram</div>
                 </div>
             </div>
             <button

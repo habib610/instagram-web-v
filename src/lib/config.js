@@ -1,15 +1,14 @@
-/* eslint-disable prettier/prettier */
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 import {
-	apiKey,
-	appId,
-	authDomain,
-	messagingSenderId,
-	projectId,
-	storageBucket
+    apiKey,
+    appId,
+    authDomain,
+    messagingSenderId,
+    projectId,
+    storageBucket
 } from './variables';
 
 const firebaseConfig = {

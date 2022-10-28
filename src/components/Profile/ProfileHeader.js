@@ -1,28 +1,41 @@
-import { motion } from 'framer-motion';
-import React, { useContext, useState } from 'react';
-import { FiEdit } from 'react-icons/fi';
-import Skeleton from 'react-loading-skeleton';
-import { Link } from 'react-router-dom';
-import { UserContext } from '../../context/context';
-import useUser from '../../hooks/useUser';
+import { motion } from "framer-motion";
+import React, { useContext, useState } from "react";
+import { FiEdit } from "react-icons/fi";
+import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
+import { UserContext } from "../../context/context";
+import useUser from "../../hooks/useUser";
 import {
     updateFollowingUsersFollowers,
     updateLoggedInUserFollowing,
-} from '../../services/services';
-import Modal from '../Modal';
+} from "../../services/services";
+import { avatar } from "../assets";
+import Modal from "../Modal";
 
 const ProfileHeader = ({ user, totalPost }) => {
     const { username, email, photo, followers, following, displayName } = user;
     const { loggedInUser } = useContext(UserContext);
     const isMyProfile = user.uid === loggedInUser.uid;
     const { user: authUser } = useUser();
-    const [isFollowingUser, setIsFollowingUser] = useState(followers.includes(loggedInUser.uid));
+    const [isFollowingUser, setIsFollowingUser] = useState(
+        followers.includes(loggedInUser.uid)
+    );
     const [totalFollowers, setTotalFollowers] = useState(followers.length);
 
     const handleFollowUser = async () => {
-        await updateLoggedInUserFollowing(authUser.docId, user.uid, isFollowingUser);
-        await updateFollowingUsersFollowers(user.userDocId, authUser.uid, isFollowingUser);
-        await setTotalFollowers(() => (isFollowingUser ? totalFollowers - 1 : totalFollowers + 1));
+        await updateLoggedInUserFollowing(
+            authUser.docId,
+            user.uid,
+            isFollowingUser
+        );
+        await updateFollowingUsersFollowers(
+            user.userDocId,
+            authUser.uid,
+            isFollowingUser
+        );
+        await setTotalFollowers(() =>
+            isFollowingUser ? totalFollowers - 1 : totalFollowers + 1
+        );
         await setIsFollowingUser(() => !isFollowingUser);
     };
 
@@ -35,7 +48,7 @@ const ProfileHeader = ({ user, totalPost }) => {
                         <img
                             className="h-30 w-30 sm:h-36  sm:w-36 md:h-48 md:w-48 rounded-full
 						  ml-0 sm:ml-12 md:ml-12 lg:ml-16"
-                            src={photo || './images/avatars/placeholder.png'}
+                            src={photo || avatar}
                             alt="profile"
                         />
                         <div className="mt-4 md:hidden text-center ml-2 sm:ml-0">
@@ -45,7 +58,9 @@ const ProfileHeader = ({ user, totalPost }) => {
                     </div>
                     <div className="w-8/12 lg:w-9/12">
                         <div className="md:flex md:items-center space-y-4 md:space-y-0 md:space-x-4">
-                            <h1 className="text-3xl md:4xl font-normal">{username}</h1>
+                            <h1 className="text-3xl md:4xl font-normal">
+                                {username}
+                            </h1>
 
                             {!authUser.following && !isMyProfile ? (
                                 <Skeleton count={1} height={30} width={100} />
@@ -54,12 +69,12 @@ const ProfileHeader = ({ user, totalPost }) => {
                                     type="button"
                                     className={`py-1 px-8  rounded text-sm font-medium  shadow w-full md:w-max ${
                                         isFollowingUser
-                                            ? 'bg-gray-border text-gray-base'
-                                            : 'bg-blue text-white'
+                                            ? "bg-gray-border text-gray-base"
+                                            : "bg-blue text-white"
                                     }`}
                                     onClick={handleFollowUser}
                                 >
-                                    {isFollowingUser ? 'Unfollow' : 'Follow'}
+                                    {isFollowingUser ? "Unfollow" : "Follow"}
                                 </button>
                             ) : null}
 
@@ -76,13 +91,20 @@ const ProfileHeader = ({ user, totalPost }) => {
                         </div>
                         <div className="hidden w-6/12 md:flex justify-between my-3">
                             <h1>
-                                <span className="font-bold">{totalPost}</span> Post
+                                <span className="font-bold">{totalPost}</span>{" "}
+                                Post
                             </h1>
                             <h1>
-                                <span className="font-bold">{totalFollowers}</span> Followers
+                                <span className="font-bold">
+                                    {totalFollowers}
+                                </span>{" "}
+                                Followers
                             </h1>
                             <h1>
-                                <span className="font-bold">{following.length}</span> Following
+                                <span className="font-bold">
+                                    {following.length}
+                                </span>{" "}
+                                Following
                             </h1>
                         </div>
                         <div className="hidden md:block">

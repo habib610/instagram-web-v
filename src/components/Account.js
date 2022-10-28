@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { MdArrowBack } from 'react-icons/md';
-import Skeleton from 'react-loading-skeleton';
-import { Link } from 'react-router-dom';
-import useUser from '../hooks/useUser';
-import { fireAuth, fireStore } from '../lib/config';
-import { checkExistingUserName } from '../services/services';
-import ProgressBar from './ProgressBar';
-import Spinner from './Spinner';
+import React, { useEffect, useState } from "react";
+import { MdArrowBack } from "react-icons/md";
+import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
+import useUser from "../hooks/useUser";
+import { fireAuth, fireStore } from "../lib/config";
+import { checkExistingUserName } from "../services/services";
+import { avatar } from "./assets";
+import ProgressBar from "./ProgressBar";
+import Spinner from "./Spinner";
 
 const Account = () => {
     const { user } = useUser();
     const [initialState, setInitialState] = useState({});
-    const [isDisplayName, setIsDisplayName] = useState('');
-    const [isEmail, setIsEmail] = useState('');
-    const [isUserName, setIsUserName] = useState('');
+    const [isDisplayName, setIsDisplayName] = useState("");
+    const [isEmail, setIsEmail] = useState("");
+    const [isUserName, setIsUserName] = useState("");
     const [loader, setLoader] = useState(false);
-    const [error, setError] = useState('');
-    const [isUrl, setIsUrl] = useState('');
+    const [error, setError] = useState("");
+    const [isUrl, setIsUrl] = useState("");
     const [file, setFile] = useState(null);
     useEffect(() => {
         if (user.email) {
@@ -33,11 +34,11 @@ const Account = () => {
         }
     }, [user.displayName, user.docId, user.email, user.photo, user.username]);
     const isUpdatable =
-        (initialState.displayName !== isDisplayName && isDisplayName !== '') ||
-        (initialState.email !== isEmail && isEmail !== '') ||
-        (initialState.username !== isUserName && isUserName !== '') ||
-        (initialState.photo !== isUrl && isUrl !== '');
-    const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        (initialState.displayName !== isDisplayName && isDisplayName !== "") ||
+        (initialState.email !== isEmail && isEmail !== "") ||
+        (initialState.username !== isUserName && isUserName !== "") ||
+        (initialState.photo !== isUrl && isUrl !== "");
+    const validTypes = ["image/jpeg", "image/png", "image/jpg"];
 
     const handleProfilePhoto = (e) => {
         const selected = e.target.files[0];
@@ -45,9 +46,9 @@ const Account = () => {
 
         if (isValid) {
             setFile(selected);
-            setError('');
+            setError("");
         } else {
-            setError('Please select a valid Image');
+            setError("Please select a valid Image");
             setFile(null);
         }
     };
@@ -68,27 +69,33 @@ const Account = () => {
                         photoURL: isUrl || initialState.photo,
                     });
                     await fireStore
-                        .collection('users')
+                        .collection("users")
                         .doc(user.docId)
                         .update({
                             username: isUserName,
                             email: isEmail || initialState.email,
-                            displayName: isDisplayName || initialState.displayName,
+                            displayName:
+                                isDisplayName || initialState.displayName,
                             photo: isUrl || initialState.photo,
                         });
                     await setLoader(false);
-                    await setError('');
+                    await setError("");
                     await setInitialState({
                         ...initialState,
                         displayName:
-                            isDisplayName !== '' ? isDisplayName : initialState.displayName,
-                        email: isEmail !== '' ? isEmail : initialState.email,
-                        username: isUserName !== '' ? isUserName : initialState.username,
-                        photo: isUrl !== '' ? isUrl : initialState.photo,
+                            isDisplayName !== ""
+                                ? isDisplayName
+                                : initialState.displayName,
+                        email: isEmail !== "" ? isEmail : initialState.email,
+                        username:
+                            isUserName !== ""
+                                ? isUserName
+                                : initialState.username,
+                        photo: isUrl !== "" ? isUrl : initialState.photo,
                     });
                 } else {
                     // eslint-disable-next-line no-throw-literal
-                    throw { message: 'username not available' };
+                    throw { message: "username not available" };
                 }
             } else if (isUserName === initialState.username) {
                 if (isEmail !== initialState.email) {
@@ -100,7 +107,7 @@ const Account = () => {
                     photoURL: isUrl || initialState.photo,
                 });
                 await fireStore
-                    .collection('users')
+                    .collection("users")
                     .doc(user.docId)
                     .update({
                         email: isEmail || initialState.email,
@@ -108,12 +115,15 @@ const Account = () => {
                         photo: isUrl || initialState.photo,
                     });
                 await setLoader(false);
-                await setError('');
+                await setError("");
                 await setInitialState({
                     ...initialState,
-                    displayName: isDisplayName !== '' ? isDisplayName : initialState.displayName,
-                    email: isEmail !== '' ? isEmail : initialState.email,
-                    photo: isUrl !== '' ? isUrl : initialState.photo,
+                    displayName:
+                        isDisplayName !== ""
+                            ? isDisplayName
+                            : initialState.displayName,
+                    email: isEmail !== "" ? isEmail : initialState.email,
+                    photo: isUrl !== "" ? isUrl : initialState.photo,
                 });
             }
         } catch (err) {
@@ -141,12 +151,14 @@ const Account = () => {
                             <div className="w-4/12 flex sm:justify-end">
                                 <img
                                     className="rounded-full w-24 h-24 mr-8"
-                                    src={isUrl || user.photo || './images/avatars/placeholder.png'}
+                                    src={isUrl || user.photo || avatar}
                                     alt="profile"
                                 />
                             </div>
                             <div>
-                                <h1 className="text-bold text-2xl">{user.username}</h1>
+                                <h1 className="text-bold text-2xl">
+                                    {user.username}
+                                </h1>
 
                                 <label
                                     htmlFor="profilePhoto"
@@ -165,7 +177,11 @@ const Account = () => {
                             </div>
                         </div>
                         {file !== null && (
-                            <ProgressBar file={file} setFile={setFile} setIsUrl={setIsUrl} />
+                            <ProgressBar
+                                file={file}
+                                setFile={setFile}
+                                setIsUrl={setIsUrl}
+                            />
                         )}
                         <div className="flex space-x-4 items-center md:mr-12">
                             <p className="w-3/12 font-bold text-right">Email</p>
@@ -174,27 +190,37 @@ const Account = () => {
                                 type="email"
                                 placeholder="email"
                                 className="w-full mb-2 px-4 py-4 border  border-gray-border rounded text-sm h-2 text-gray-base focus:outline-none focus:ring-2 focus:ring-blue bg-gray-bg focus:bg-white disabled:opacity-50"
-                                onChange={({ target }) => setIsEmail(target.value)}
+                                onChange={({ target }) =>
+                                    setIsEmail(target.value)
+                                }
                             />
                         </div>
                         <div className="flex space-x-4 items-center md:mr-12">
-                            <p className="w-3/12 font-bold text-right">username</p>
+                            <p className="w-3/12 font-bold text-right">
+                                username
+                            </p>
                             <input
                                 value={isUserName}
                                 type="text"
                                 placeholder="username"
                                 className="w-full mb-2 px-4 py-4 border  border-gray-border rounded text-sm h-2 text-gray-base focus:outline-none focus:ring-2 focus:ring-blue bg-gray-bg focus:bg-white"
-                                onChange={({ target }) => setIsUserName(target.value)}
+                                onChange={({ target }) =>
+                                    setIsUserName(target.value)
+                                }
                             />
                         </div>
                         <div className="flex space-x-4 items-center md:mr-12">
-                            <p className="w-3/12 font-bold text-right">Full Name</p>
+                            <p className="w-3/12 font-bold text-right">
+                                Full Name
+                            </p>
                             <input
                                 value={isDisplayName}
                                 type="text"
                                 placeholder="Full Name"
                                 className="w-full mb-2 px-4 py-4 border  border-gray-border rounded text-sm h-2 text-gray-base focus:outline-none focus:ring-2 focus:ring-blue bg-gray-bg focus:bg-white"
-                                onChange={({ target }) => setIsDisplayName(target.value)}
+                                onChange={({ target }) =>
+                                    setIsDisplayName(target.value)
+                                }
                             />
                         </div>
                         <div className="flex space-x-4 items-center justify-center ">
@@ -203,11 +229,15 @@ const Account = () => {
                                 type="submit"
                                 className="w-5/12 bg-blue text-white font-bold h-8 rounded disabled:opacity-50 flex justify-center items-center disabled:opacity-50"
                             >
-                                {loader ? <Spinner /> : 'Update Profile'}
+                                {loader ? <Spinner /> : "Update Profile"}
                             </button>
                         </div>
 
-                        {error && <div className="my-3 text-center text-red-error">{error}</div>}
+                        {error && (
+                            <div className="my-3 text-center text-red-error">
+                                {error}
+                            </div>
+                        )}
                     </div>
                 </form>
             ) : (

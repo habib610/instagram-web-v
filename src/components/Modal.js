@@ -1,27 +1,28 @@
-import { motion } from 'framer-motion';
-import React, { useState } from 'react';
-import { BsImage, BsXCircle } from 'react-icons/bs';
-import { useHistory } from 'react-router-dom';
-import { fireStore } from '../lib/config';
-import ProgressBar from './ProgressBar';
+import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { BsImage, BsXCircle } from "react-icons/bs";
+import { useHistory } from "react-router-dom";
+import { fireStore } from "../lib/config";
+import { avatar } from "./assets";
+import ProgressBar from "./ProgressBar";
 
 const Modal = ({ user, setIsModal }) => {
     const [file, setFile] = useState(null);
-    const [isUrl, setIsUrl] = useState('');
-    const [error, setError] = useState('');
-    const [caption, setCaption] = useState('');
+    const [isUrl, setIsUrl] = useState("");
+    const [error, setError] = useState("");
+    const [caption, setCaption] = useState("");
 
     const history = useHistory();
 
-    const disableButton = isUrl === '' || caption === '';
+    const disableButton = isUrl === "" || caption === "";
     const hideModal = (e) => {
-        if (e.target.classList.contains('backdrop')) {
+        if (e.target.classList.contains("backdrop")) {
             setIsModal(false);
             setFile(null);
         }
     };
 
-    const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    const validTypes = ["image/jpeg", "image/png", "image/jpg"];
 
     const handleProfilePhoto = (e) => {
         const selected = e.target.files[0];
@@ -29,15 +30,15 @@ const Modal = ({ user, setIsModal }) => {
 
         if (isValid) {
             setFile(selected);
-            setError('');
+            setError("");
         } else {
-            setError('Please select a valid Image');
+            setError("Please select a valid Image");
             setFile(null);
         }
     };
     const handlePost = () => {
         fireStore
-            .collection('photos')
+            .collection("photos")
             .add({
                 caption,
                 comments: [],
@@ -48,10 +49,10 @@ const Modal = ({ user, setIsModal }) => {
             })
             .then(() => {
                 setFile(null);
-                setIsUrl('');
-                setCaption('');
-                setError('');
-                history.push('/');
+                setIsUrl("");
+                setCaption("");
+                setError("");
+                history.push("/");
             });
     };
     return (
@@ -62,8 +63,8 @@ const Modal = ({ user, setIsModal }) => {
             onClick={hideModal}
         >
             <motion.div
-                initial={{ y: '-100vh' }}
-                animate={{ y: '0' }}
+                initial={{ y: "-100vh" }}
+                animate={{ y: "0" }}
                 className="bg-white container mx-auto md:max-w-screen-sm  rounded-xl flex flex-col "
             >
                 <div className="flex border-b border-gray-border py-2  items-center">
@@ -80,13 +81,19 @@ const Modal = ({ user, setIsModal }) => {
                 </div>
 
                 <div>
-                    {file && <ProgressBar file={file} setFile={setFile} setIsUrl={setIsUrl} />}
+                    {file && (
+                        <ProgressBar
+                            file={file}
+                            setFile={setFile}
+                            setIsUrl={setIsUrl}
+                        />
+                    )}
                 </div>
 
                 <div className="px-4 mt-4 mb-2 flex items-center space-x-4">
                     <img
                         className=" h-12 w-12 rounded-full "
-                        src={user.photo || './images/avatars/placeholder.png'}
+                        src={user.photo || avatar}
                         alt=""
                     />
                     <textarea
@@ -101,7 +108,7 @@ const Modal = ({ user, setIsModal }) => {
                 {isUrl && (
                     <div>
                         <img
-                            style={{ maxHeight: '50vh' }}
+                            style={{ maxHeight: "50vh" }}
                             className="w-full object-cover"
                             src={isUrl}
                             alt="postPhoto"
@@ -133,7 +140,11 @@ const Modal = ({ user, setIsModal }) => {
                         Post
                     </button>
                 </div>
-                {error && <p className="text-center text-red-error mx-4 pb-3 ">{error}</p>}
+                {error && (
+                    <p className="text-center text-red-error mx-4 pb-3 ">
+                        {error}
+                    </p>
+                )}
             </motion.div>
         </div>
     );

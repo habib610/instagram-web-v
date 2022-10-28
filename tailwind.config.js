@@ -1,6 +1,6 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-    purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-    darkMode: false, // or 'media' or 'class'
+    content: ["./src/**/*.{js,jsx,ts,tsx}"],
     theme: {
         extend: {},
         colors: {
@@ -28,16 +28,6 @@ module.exports = {
             white: '#ffffff',
             pink: '#D44A9A',
             violate: '#6c5ce7',
-        },
-    },
-    variants: {
-        extend: {
-            opacity: ['disabled'],
-            backgroundColor: ['active'],
-            display: ['group-hover'],
-            textColor: ['visited', 'group-hover', 'active'],
-            rotate: ['active', 'group-hover'],
-            transitionProperty: ['responsive', 'motion-safe', 'motion-reduce'],
         },
     },
     plugins: [],

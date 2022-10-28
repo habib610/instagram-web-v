@@ -1,6 +1,6 @@
-export const apiKey = 'AIzaSyB2PEn_2YIGYUSP99Ru7iclENiE4FLuo8A';
-export const authDomain = 'instagram-53a21.firebaseapp.com';
-export const projectId = 'instagram-53a21';
-export const storageBucket = 'instagram-53a21.appspot.com';
-export const messagingSenderId = '987962045619';
-export const appId = '1:987962045619:web:b99d490ef17e9b26846cc6';
+export const apiKey = process.env.REACT_APP_API_KEY;
+export const authDomain = process.env.REACT_APP_AUTH_DOMAIN;
+export const projectId = process.env.REACT_APP_PROJECT_ID;
+export const storageBucket = process.env.REACT_APP_STORAGE_BUCKET;
+export const messagingSenderId = process.env.REACT_APP_MESSAGE_SENDER_ID;
+export const appId = process.env.REACT_APP_APP_ID;

@@ -1,16 +1,17 @@
-import { Picker } from 'emoji-mart';
-import moment from 'moment';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { AiOutlineMenuUnfold } from 'react-icons/ai';
-import { IoMdSend } from 'react-icons/io';
-import { VscSmiley } from 'react-icons/vsc';
-import Skeleton from 'react-loading-skeleton';
-import { UserContext } from '../../context/context';
-import useMessages from '../../hooks/useMessages';
-import { fireStore } from '../../lib/config';
+import { Picker } from "emoji-mart";
+import moment from "moment";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { IoMdSend } from "react-icons/io";
+import { VscSmiley } from "react-icons/vsc";
+import Skeleton from "react-loading-skeleton";
+import { UserContext } from "../../context/context";
+import useMessages from "../../hooks/useMessages";
+import { fireStore } from "../../lib/config";
+import { avatar } from "../assets";
 
 const ChatBox = ({ activeUser, drawer, setDrawer }) => {
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState("");
     const [isPicker, setIsPicker] = useState(false);
     const {
         loggedInUser: { uid: authUid },
@@ -26,7 +27,10 @@ const ChatBox = ({ activeUser, drawer, setDrawer }) => {
 
     const scrollToBottom = () => {
         // eslint-disable-next-line no-unused-expressions
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        messagesEndRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+        });
     };
 
     useEffect(() => {
@@ -34,14 +38,14 @@ const ChatBox = ({ activeUser, drawer, setDrawer }) => {
     }, [allMessages]);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await fireStore.collection('messages').add({
+        await fireStore.collection("messages").add({
             sender: authUid,
             receiver: activeUser.uid,
             date: Date.now(),
             text: message,
         });
 
-        setMessage('');
+        setMessage("");
         setIsPicker(false);
     };
     const handleFocus = () => {
@@ -49,14 +53,14 @@ const ChatBox = ({ activeUser, drawer, setDrawer }) => {
         setDrawer(true);
     };
     return (
-        <div style={{ height: '84vh' }}>
+        <div style={{ height: "84vh" }}>
             <div className="flex flex-col h-full pr-1">
                 <div className="flex items-center justify-between space-x-3 border-b border-gray-border pb-3 p-3">
                     <div className="flex items-center space-x-3">
                         <div className="h-12 w-12 ">
                             <img
                                 className="rounded-full"
-                                src={activeUser.photo || './images/avatars/placeholder.png'}
+                                src={activeUser.photo || avatar}
                                 alt="authUser"
                             />
                         </div>
@@ -64,7 +68,9 @@ const ChatBox = ({ activeUser, drawer, setDrawer }) => {
                             <div className="text-lg font-bold text-black-icon">
                                 {activeUser.displayName}
                             </div>
-                            <div className="text-sm  text-gray-base">{activeUser.username}</div>
+                            <div className="text-sm  text-gray-base">
+                                {activeUser.username}
+                            </div>
                         </div>
                     </div>
 
@@ -82,23 +88,32 @@ const ChatBox = ({ activeUser, drawer, setDrawer }) => {
                     tabIndex={0}
                     role="button"
                 >
-                    <div ref={messagesEndRef} className="flex flex-col-reverse pb-auto">
+                    <div
+                        ref={messagesEndRef}
+                        className="flex flex-col-reverse pb-auto"
+                    >
                         {allMessages === null ? (
-                            <Skeleton count={25} height={70} className="mx-24 mb-2" />
+                            <Skeleton
+                                count={25}
+                                height={70}
+                                className="mx-24 mb-2"
+                            />
                         ) : allMessages.length > 0 ? (
                             allMessages.map((item) => (
                                 <div
                                     key={item.docId}
-                                    style={{ maxWidth: '70%' }}
+                                    style={{ maxWidth: "70%" }}
                                     className={`text-black-icon py-2 px-3 m-2 rounded-xl mb-2 ${
                                         item.sender === authUid
-                                            ? 'ml-auto bg-gray-active'
-                                            : 'mr-auto bg-white border border-gray-border'
+                                            ? "ml-auto bg-gray-active"
+                                            : "mr-auto bg-white border border-gray-border"
                                     }`}
                                 >
                                     <p className="text-md mb-1">{item.text}</p>
                                     <p className="font-sm text-xs text-left">
-                                        {moment(item.date).format('ddd, MMM D, h:mm a')}
+                                        {moment(item.date).format(
+                                            "ddd, MMM D, h:mm a"
+                                        )}
                                     </p>
                                 </div>
                             ))
@@ -110,7 +125,11 @@ const ChatBox = ({ activeUser, drawer, setDrawer }) => {
                         <div className="flex items-center">
                             {isPicker && (
                                 <Picker
-                                    style={{ position: 'absolute', bottom: '50px', left: 0 }}
+                                    style={{
+                                        position: "absolute",
+                                        bottom: "50px",
+                                        left: 0,
+                                    }}
                                     onSelect={addEmojiHandler}
                                     perLine={8}
                                     showSkinTones={false}
@@ -123,7 +142,10 @@ const ChatBox = ({ activeUser, drawer, setDrawer }) => {
                                 className="group"
                                 onClick={() => setIsPicker(!isPicker)}
                             >
-                                <VscSmiley className="group-hover:text-red-rose" size={27} />
+                                <VscSmiley
+                                    className="group-hover:text-red-rose"
+                                    size={27}
+                                />
                             </button>
                         </div>
                         <div className="flex-1">
@@ -136,8 +158,15 @@ const ChatBox = ({ activeUser, drawer, setDrawer }) => {
                                 value={message}
                             />
                         </div>
-                        <button type="submit" onClick={handleSubmit} className="group">
-                            <IoMdSend size={25} className="group-hover:text-blue" />
+                        <button
+                            type="submit"
+                            onClick={handleSubmit}
+                            className="group"
+                        >
+                            <IoMdSend
+                                size={25}
+                                className="group-hover:text-blue"
+                            />
                         </button>
                     </div>
                 </form>

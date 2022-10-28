@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { BsFillChatFill } from 'react-icons/bs';
-import Skeleton from 'react-loading-skeleton';
-import { getUserPhotosByUId } from '../../services/services';
-import SvgIcons from '../SvgIcons';
+import React, { useEffect, useState } from "react";
+import { BsFillChatFill } from "react-icons/bs";
+import Skeleton from "react-loading-skeleton";
+import { getUserPhotosByUId } from "../../services/services";
+import { noPhotos } from "../assets";
+import SvgIcons from "../SvgIcons";
 
 const UserPhotos = ({ user, setTotalPost }) => {
     const [userPhotos, setUserPhotos] = useState(null);
@@ -25,10 +26,16 @@ const UserPhotos = ({ user, setTotalPost }) => {
             ) : userPhotos.length === 0 ? (
                 <div className="flex items-center w-full bg-white space-x-2 p-3">
                     <div className="w-6/12 md:flex justify-end">
-                        <img className="md:h-64" src="./images/nophotos.jpg" alt="nophotos" />
+                        <img
+                            className="md:h-64"
+                            src={noPhotos}
+                            alt="nophotos"
+                        />
                     </div>
                     <div className="w-6/12 text-center">
-                        <h1 className="text-xl md:text-2xl font-bold">No photos Available!</h1>
+                        <h1 className="text-xl md:text-2xl font-bold">
+                            No photos Available!
+                        </h1>
                         <p>Start capturing and Sharing your Moments</p>
                     </div>
                 </div>
@@ -45,13 +52,20 @@ const UserPhotos = ({ user, setTotalPost }) => {
                             <div className="absolute bottom-0 left-0 bg-gray-200 z-10 w-full justify-evenly items-center h-full bg-black-faded group-hover:flex hidden">
                                 <div className="flex space-x-2 text-white">
                                     <div>{SvgIcons.reactFillWhite}</div>
-                                    <p className="text-white font-bold">{item.likes.length}</p>
+                                    <p className="text-white font-bold">
+                                        {item.likes.length}
+                                    </p>
                                 </div>
                                 <div className="flex space-x-2">
                                     <div>
-                                        <BsFillChatFill className="text-white" size={24} />
+                                        <BsFillChatFill
+                                            className="text-white"
+                                            size={24}
+                                        />
                                     </div>
-                                    <p className="text-white font-bold">{item.comments.length}</p>
+                                    <p className="text-white font-bold">
+                                        {item.comments.length}
+                                    </p>
                                 </div>
                             </div>
                         </div>

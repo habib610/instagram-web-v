@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
     updateFollowingUsersFollowers,
     updateLoggedInUserFollowing,
-} from '../../services/services';
+} from "../../services/services";
+import { avatar } from "../assets";
 
 const SuggestedUser = ({ user, loggedInDocId, loggedInUserUId }) => {
     const { photo, username, uid: targetUId, docId: targetDocId } = user;
     const [isFollowing, setIsFollowing] = useState(false);
 
     const updateSuggestedUser = async () => {
-        await updateLoggedInUserFollowing(loggedInDocId, targetUId, isFollowing);
+        await updateLoggedInUserFollowing(
+            loggedInDocId,
+            targetUId,
+            isFollowing
+        );
 
-        await updateFollowingUsersFollowers(targetDocId, loggedInUserUId, isFollowing);
+        await updateFollowingUsersFollowers(
+            targetDocId,
+            loggedInUserUId,
+            isFollowing
+        );
         await setIsFollowing(true);
     };
 
@@ -22,7 +31,7 @@ const SuggestedUser = ({ user, loggedInDocId, loggedInUserUId }) => {
                 <div>
                     <Link to="/profile" className="pointer">
                         <img
-                            src={photo || './images/avatars/placeholder.png'}
+                            src={photo || avatar}
                             alt="users"
                             className="h-10 w-10 rounded-full"
                         />
@@ -37,7 +46,9 @@ const SuggestedUser = ({ user, loggedInDocId, loggedInUserUId }) => {
                             {username}
                         </Link>
                     </div>
-                    <div className="text-gray-base text-sm">New to instagram</div>
+                    <div className="text-gray-base text-sm">
+                        New to Photogram
+                    </div>
                 </div>
             </div>
             <button
@@ -46,7 +57,7 @@ const SuggestedUser = ({ user, loggedInDocId, loggedInUserUId }) => {
                 onClick={updateSuggestedUser}
                 disabled={isFollowing}
             >
-                {isFollowing ? 'Following' : 'Follow'}
+                {isFollowing ? "Following" : "Follow"}
             </button>
         </div>
     ) : null;

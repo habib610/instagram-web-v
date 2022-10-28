@@ -1,15 +1,24 @@
-import React from 'react';
-import Skeleton from 'react-loading-skeleton';
-import { Link, useHistory } from 'react-router-dom';
-import { fireAuth } from '../lib/config';
-import Suggestions from './Suggestions/Suggestions';
+import React from "react";
+import Skeleton from "react-loading-skeleton";
+import { Link, useHistory } from "react-router-dom";
+import { fireAuth } from "../lib/config";
+import { avatar } from "./assets";
+import Suggestions from "./Suggestions/Suggestions";
 
 const SideBar = ({ user }) => {
-    const { photo, email, username, displayName, following, uid, docId: loggedInDocId } = user;
+    const {
+        photo,
+        email,
+        username,
+        displayName,
+        following,
+        uid,
+        docId: loggedInDocId,
+    } = user;
     const history = useHistory();
     const logoutHandler = () => {
         fireAuth.signOut();
-        history.push('/login');
+        history.push("/login");
     };
     return (
         <div className="mt-8">
@@ -19,7 +28,7 @@ const SideBar = ({ user }) => {
                         <div>
                             <Link to="/profile" className="pointer">
                                 <img
-                                    src={photo || './images/avatars/placeholder.png'}
+                                    src={photo || avatar}
                                     alt="users"
                                     className="h-14 w-14 rounded-full"
                                 />
@@ -50,7 +59,11 @@ const SideBar = ({ user }) => {
                 <Skeleton height={80} className="rounded" />
             )}
             <div>
-                <Suggestions userUid={uid} loggedInDocId={loggedInDocId} following={following} />
+                <Suggestions
+                    userUid={uid}
+                    loggedInDocId={loggedInDocId}
+                    following={following}
+                />
             </div>
         </div>
     );
