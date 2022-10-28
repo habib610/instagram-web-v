@@ -29,7 +29,7 @@ const SuggestedUser = ({ user, loggedInDocId, loggedInUserUId }) => {
         <div className="flex justify-between items-center mb-2">
             <div className="flex space-x-4 items-center">
                 <div>
-                    <Link to="/profile" className="pointer">
+                    <Link to={`/${username}`} className="pointer">
                         <img
                             src={photo || avatar}
                             alt="users"

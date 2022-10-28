@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { BsImage, BsXCircle } from "react-icons/bs";
 import { useHistory } from "react-router-dom";
 import { fireStore } from "../lib/config";
+import { getvalidPhotoSize } from "../services/services";
 import { avatar } from "./assets";
 import ProgressBar from "./ProgressBar";
 
@@ -27,13 +28,19 @@ const Modal = ({ user, setIsModal }) => {
     const handleProfilePhoto = (e) => {
         const selected = e.target.files[0];
         const isValid = validTypes.includes(selected.type);
+        const vlaidSize = getvalidPhotoSize(selected.size);
 
-        if (isValid) {
-            setFile(selected);
-            setError("");
-        } else {
+        if (!isValid) {
             setError("Please select a valid Image");
             setFile(null);
+        }
+        if (!vlaidSize && isValid) {
+            setError("Image size must be less than 500KB");
+            setFile(null);
+        }
+        if (isValid && vlaidSize) {
+            setFile(selected);
+            setError("");
         }
     };
     const handlePost = () => {
@@ -119,7 +126,7 @@ const Modal = ({ user, setIsModal }) => {
                     <label
                         htmlFor="postPhoto"
                         name="profile"
-                        className="bg-red-rose p-4 text-white rounded h-10 flex justify-center items-center text-xl font-bold shadow"
+                        className="bg-red-rose p-4 hover:cursor-pointer text-white rounded h-10 flex justify-center items-center text-xl font-bold shadow"
                     >
                         <BsImage />
                         <input
@@ -135,7 +142,7 @@ const Modal = ({ user, setIsModal }) => {
                         type="button"
                         onClick={handlePost}
                         disabled={disableButton}
-                        className="flex-1 flex justify-center items-center w-full bg-blue p-4 rounded text-white h-10  font-bold uppercase shadow disabled:opacity-50"
+                        className="flex-1 flex justify-center items-center w-full bg-opacity-80 bg-blue hover:bg-opacity-95 p-4 rounded text-white h-10  font-bold uppercase shadow disabled:opacity-50"
                     >
                         Post
                     </button>

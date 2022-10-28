@@ -4,7 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
 import useUser from "../hooks/useUser";
 import { fireAuth, fireStore } from "../lib/config";
-import { checkExistingUserName } from "../services/services";
+import { checkExistingUserName, getvalidPhotoSize } from "../services/services";
 import { avatar } from "./assets";
 import ProgressBar from "./ProgressBar";
 import Spinner from "./Spinner";
@@ -43,13 +43,16 @@ const Account = () => {
     const handleProfilePhoto = (e) => {
         const selected = e.target.files[0];
         const isValid = validTypes.includes(selected.type);
-
-        if (isValid) {
-            setFile(selected);
-            setError("");
-        } else {
+        const vlaidSize = getvalidPhotoSize(selected.size);
+        if (!isValid) {
             setError("Please select a valid Image");
             setFile(null);
+        } else if (!vlaidSize && isValid) {
+            setError("Image size must be less than 500KB");
+            setFile(null);
+        } else if (isValid && vlaidSize) {
+            setFile(selected);
+            setError("");
         }
     };
 
