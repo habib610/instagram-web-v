@@ -1,12 +1,12 @@
-import { formatDistance } from 'date-fns';
-import { Picker } from 'emoji-mart';
-import { motion } from 'framer-motion';
-import React, { useRef, useState } from 'react';
-import { VscSmiley } from 'react-icons/vsc';
-import { Link } from 'react-router-dom';
-import { FieldValue, fireStore } from '../../lib/config';
-import SvgIcons from '../SvgIcons';
-import Comments from './Comments';
+import { formatDistance } from "date-fns";
+import { Picker } from "emoji-mart";
+import { motion } from "framer-motion";
+import React, { useRef, useState } from "react";
+import { VscSmiley } from "react-icons/vsc";
+import { Link } from "react-router-dom";
+import { FieldValue, fireStore } from "../../lib/config";
+import SvgIcons from "../SvgIcons";
+import Comments from "./Comments";
 
 const CardFooter = ({
     username,
@@ -23,7 +23,7 @@ const CardFooter = ({
     const [totalLikes, setTotalLikes] = useState(likes.length);
 
     const [isPicker, setIsPicker] = useState(false);
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState("");
     const [allComments, setAllComments] = useState(comments);
 
     const commentRef = useRef();
@@ -34,7 +34,7 @@ const CardFooter = ({
     const handleLike = async () => {
         setToggleLike(() => !toggleLike);
         await fireStore
-            .collection('photos')
+            .collection("photos")
             .doc(photoDocId)
             .update({
                 likes: toggleLike
@@ -43,24 +43,33 @@ const CardFooter = ({
             });
         setTotalLikes(() => (toggleLike ? totalLikes - 1 : totalLikes + 1));
     };
+    const [disableBtn, setDisableBtn] = useState(false);
 
     const addCommentHandler = async (e) => {
         e.preventDefault();
-        const newComment = {
-            username: authUserName,
-            comment: message,
-            createdAt: Date.now(),
-        };
-        await fireStore
-            .collection('photos')
-            .doc(photoDocId)
-            .update({
-                comments: FieldValue.arrayUnion(newComment),
-            });
-
-        setAllComments([...allComments, newComment]);
-        setMessage('');
-        setIsPicker(false);
+        setDisableBtn(true);
+        try {
+            const newComment = {
+                username: authUserName,
+                comment: message,
+                createdAt: Date.now(),
+            };
+            await fireStore
+                .collection("photos")
+                .doc(photoDocId)
+                .update({
+                    comments: FieldValue.arrayUnion(newComment),
+                });
+            setAllComments([...allComments, newComment]);
+            setMessage("");
+            setIsPicker(false);
+            setDisableBtn(false);
+        } catch (error) {
+            setDisableBtn(false);
+            setMessage("");
+            setIsPicker(false);
+            setDisableBtn(false);
+        }
     };
 
     return (
@@ -70,10 +79,15 @@ const CardFooter = ({
                     <div className="flex justify-between space-x-4 mb-2">
                         <button type="button" onClick={handleLike}>
                             <motion.p whileTap={{ rotateX: 360 }}>
-                                {toggleLike ? SvgIcons.reactFill : SvgIcons.reactOutline}
+                                {toggleLike
+                                    ? SvgIcons.reactFill
+                                    : SvgIcons.reactOutline}
                             </motion.p>
                         </button>
-                        <button type="button" onClick={() => commentRef.current.focus()}>
+                        <button
+                            type="button"
+                            onClick={() => commentRef.current.focus()}
+                        >
                             {SvgIcons.comment}
                         </button>
                         <button type="button">{SvgIcons.share}</button>
@@ -81,19 +95,23 @@ const CardFooter = ({
                     <button type="button">{SvgIcons.save}</button>
                 </div>
                 <div className="text-gray-black mb-2 text-md font-bold">
-                    {totalLikes} {totalLikes > 1 ? 'likes' : 'Like'}
+                    {totalLikes} {totalLikes > 1 ? "likes" : "Like"}
                 </div>
                 <div className="text-black">
                     <span className="font-bold">
                         <Link className="hover:underline" to={`/${username}`}>
                             {username}
-                        </Link>{' '}
+                        </Link>{" "}
                     </span>
                     {caption}
                 </div>
                 <div>
                     {allComments.length !== 0 ? (
-                        allComments.map((item) => <Comments key={item.createdAt} content={item} />)
+                        allComments
+                            .slice(allComments.length - 5, allComments.length)
+                            .map((item) => (
+                                <Comments key={item.createdAt} content={item} />
+                            ))
                     ) : (
                         <p>No comments yet</p>
                     )}
@@ -104,13 +122,17 @@ const CardFooter = ({
             </div>
             <form onSubmit={addCommentHandler}>
                 <div
-                    style={{ position: 'relative' }}
+                    style={{ position: "relative" }}
                     className="flex justify-between items-center border border-gray-border p-4 space-x-4 bg-white border-l-0 border-r-0"
                 >
                     <div>
                         {isPicker && (
                             <Picker
-                                style={{ position: 'absolute', bottom: '64px', left: 0 }}
+                                style={{
+                                    position: "absolute",
+                                    bottom: "64px",
+                                    left: 0,
+                                }}
                                 onSelect={addEmojiHandler}
                                 perLine={8}
                                 showSkinTones={false}
@@ -123,7 +145,10 @@ const CardFooter = ({
                             onClick={() => setIsPicker(!isPicker)}
                             type="button"
                         >
-                            <VscSmiley className="group-hover:text-red-rose" size={27} />
+                            <VscSmiley
+                                className="group-hover:text-red-rose"
+                                size={27}
+                            />
                         </button>
                     </div>
                     <input
@@ -137,8 +162,9 @@ const CardFooter = ({
                         ref={commentRef}
                     />
                     <button
+                        disabled={disableBtn}
                         type="submit"
-                        className="font-bold text-blue"
+                        className="font-bold text-blue disabled:opacity-75 disabled:cursor-not-allowed"
                         onClick={addCommentHandler}
                     >
                         Post
